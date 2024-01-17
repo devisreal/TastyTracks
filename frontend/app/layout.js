@@ -2,8 +2,10 @@ import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import "@mantine/core/styles.css";
+
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { GeistSans } from "geist/font/sans";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 const clash_grotesk = localFont({
@@ -59,6 +61,13 @@ export default function RootLayout({ children }) {
           }}
         >
           {children}
+          <Toaster
+            richColors
+            closeButton
+            toastOptions={{              
+              className: "font-geist text-lg",
+            }}
+          />
         </MantineProvider>
       </body>
     </html>
