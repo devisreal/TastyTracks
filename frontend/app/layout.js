@@ -1,4 +1,4 @@
-import { Inter } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import "@mantine/core/styles.css";

@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class OrderingSystemConfig(AppConfig):
+class UsersConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'ordering_system'
+    name = 'users'
