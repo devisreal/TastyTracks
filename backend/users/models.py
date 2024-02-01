@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractUser, UserManager, BaseUserManager
 
 class CustomUserManager(BaseUserManager):
@@ -7,7 +8,7 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('The Email field must be set')
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
-        user.set_password(password)
+        user.set_password(password) 
         user.save(using=self._db)
         return user    
 
@@ -20,7 +21,7 @@ class CustomUserManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email)
         )        
-        user.set_password(password)                
+        user.set_password(password)              
         user.admin = True
         user.staff = True
         user.active = True
@@ -57,6 +58,7 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
+    objects = CustomUserManager()    
 
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)    
@@ -73,12 +75,12 @@ class Restaurant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField()
-    location = models.CharField(max_length=255)
+    location = models.CharField(max_length=255, null=True, blank=True)
     phone_number = models.CharField(max_length=15)
-    rating = models.FloatField()    
-    delivery_time = models.IntegerField()  # in minutes
-    delivery_fee = models.DecimalField(max_digits=6, decimal_places=2)
-    opening_hours = models.CharField(max_length=100)
+    rating = models.FloatField(null=True, blank=True)
+    delivery_time = models.IntegerField(null=True, blank=True)  # in minutes
+    delivery_fee = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    opening_hours = models.CharField(max_length=100, null=True, blank=True)
 
     objects = RestaurantManager()
 
