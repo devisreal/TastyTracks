@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from users.models import User, Customer, Restaurant
-from django.contrib.auth.hashers import make_password
-
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
 class UserSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type': 'password'} , write_only=True)
@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {            
             'email': { 'required': True, 'allow_blank': False },            
             'password': {'write_only': True, 'required': True, 'allow_blank': False, 'min_length': 6}
-        }
+        }        
     
     def validate(self, attrs):
         password=attrs.get('password')
@@ -28,10 +28,13 @@ class UserSerializer(serializers.ModelSerializer):
         return attrs
     
     def validate_password(self, value):
-        if len(value) < 6:
-            raise serializers.ValidationError("Password is too short!")
-        else:
-            return value    
+        try:
+            validate_password(value)
+        except ValidationError as err:            
+            raise serializers.ValidationError(list(err.messages))
+    
+    
+
 
 class CustomerSerializer(serializers.ModelSerializer):            
     user = UserSerializer()
@@ -60,6 +63,18 @@ class CustomerSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**user_data, is_customer=True)
         customer = Customer.objects.create(user=user, **validated_data)
         return customer
+
+
+class CustomerAvatarSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Customer
+        fields = ['avatar']
+        
+    def update(self, instance, validated_data):
+        instance.avatar = validated_data.get('avatar', instance.avatar)
+        instance.save()
+        return instance
 
 class RestaurantSerializer(serializers.ModelSerializer):
     user = UserSerializer()
