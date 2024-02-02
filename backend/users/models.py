@@ -40,7 +40,6 @@ class CustomerManager(CustomUserManager):
         extra_fields.setdefault('is_customer', True)
         extra_fields.setdefault('is_restaurant', False)
         return super().create_user(email, password, **extra_fields)
-
     
 
 class RestaurantManager(CustomUserManager):
@@ -71,12 +70,15 @@ class User(AbstractUser):
       self.slug = slugify(self.username)
       super().save(*args, **kwargs) 
 
+def customer_upload_to(instance, filename):
+    return 'avatars/{filename}'.format(filename=filename)
+
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)    
     address = models.CharField(max_length=255)
     post_code = models.CharField(max_length=10)
     phone_number = models.CharField(max_length=15)
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    avatar = models.ImageField(upload_to=customer_upload_to, blank=True, null=True)
 
     objects = CustomerManager()
 
@@ -92,6 +94,9 @@ class Customer(models.Model):
     def __str__(self):
       return f"{self.user.username}"
 
+def restaurant_upload_to(instance, filename):
+    return 'logos/{filename}'.format(filename=filename)
+
 class Restaurant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
@@ -102,7 +107,7 @@ class Restaurant(models.Model):
     delivery_time = models.IntegerField(null=True, blank=True)  # in minutes
     delivery_fee = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
     opening_hours = models.CharField(max_length=100, null=True, blank=True)
-    logo = models.ImageField(upload_to='logos/', blank=True, null=True)
+    logo = models.ImageField(upload_to=restaurant_upload_to, blank=True, null=True)
 
     objects = RestaurantManager()
 

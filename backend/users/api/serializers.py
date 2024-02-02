@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from users.models import User, Customer, Restaurant
 from django.contrib.auth.password_validation import validate_password
-from django.core.exceptions import ValidationError
 
 class UserSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type': 'password'} , write_only=True)
@@ -10,29 +9,23 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username','slug', 'email', 'password', 'password2', 'first_name', 'last_name', 'is_customer', 'is_owner', 'is_staff', 'is_superuser', 'is_active']
         extra_kwargs = {            
-            'email': { 'required': True, 'allow_blank': False },            
-            'password': {'write_only': True, 'required': True, 'allow_blank': False, 'min_length': 6}
+            'email': { 'required': True, 'allow_blank': False },
+            'password': {'write_only': True}
         }        
     
     def validate(self, attrs):
         password=attrs.get('password')
         password2=attrs.pop('password2')
         if password != password2:
-            raise serializers.ValidationError("Password and Confirm Password Does not match")
-        
-        if User.objects.filter(email=attrs.get('email')).exists():
-            raise serializers.ValidationError({
-                'error': 'Email already exists'
-            })
-            
+            raise serializers.ValidationError({"password": "Password and Confirm Password Does not match"})
         return attrs
     
     def validate_password(self, value):
-        try:
-            validate_password(value)
-        except ValidationError as err:            
-            raise serializers.ValidationError(list(err.messages))
-    
+        validate_password(value, self.instance)
+        return value
+
+    def create(self, validate_data):        
+        return User.objects.create_user(**validate_data)    
     
 
 

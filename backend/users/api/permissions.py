@@ -17,6 +17,7 @@ class IsCustomer(permissions.BasePermission):
       else:
          return bool(request.user and request.user.is_customer)
       
+      
 
       
       

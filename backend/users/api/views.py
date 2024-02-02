@@ -4,8 +4,17 @@ from users.api.serializers import CustomerSerializer, RestaurantSerializer, User
 from rest_framework.response import Response
 from rest_framework import status
 from users.api.permissions import IsCustomer, IsOwner
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
+from rest_framework_simplejwt.tokens import RefreshToken
+
+# def get_tokens_for_user(user):
+#     refresh = RefreshToken.for_user(user)
+
+#     return {
+#         'refresh': str(refresh),
+#         'access': str(refresh.access_token),
+#     }
 
 class CreateRestaurantView(APIView):
     def post(self, request, *args, **kwargs):
@@ -26,7 +35,7 @@ class CreateCustomerView(APIView):
 
 
 class UserList(APIView):
-    # permission_classes = [IsCustomer, IsAuthenticated]
+    permission_classes = [IsAdminUser, IsAuthenticated]
     
     def get(self, request):
         users = User.objects.all()
