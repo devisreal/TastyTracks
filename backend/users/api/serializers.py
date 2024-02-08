@@ -7,6 +7,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from users.utils import send_normal_email
+from django.template.loader import render_to_string
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.exceptions import AuthenticationFailed
@@ -177,6 +178,7 @@ class PasswordResetSerializer(serializers.Serializer):
         email = attrs.get("email")
         if User.objects.filter(email=email).exists():
             user = User.objects.get(email=email)
+            recipient_name = user.first_name + " " + user.last_name
             uuid64 = urlsafe_base64_encode(smart_bytes(user.id))
             token = PasswordResetTokenGenerator().make_token(user)
             request = self.context.get("request")
@@ -185,11 +187,14 @@ class PasswordResetSerializer(serializers.Serializer):
                 "password-reset-confirm", kwargs={"uidb64": uuid64, "token": token}
             )
             absolute = f"http://{site_domain}{relative_link}"
-            email_body = f"Hi {user.username}, Please click the link below to reset your password \n{absolute}"
+            html_content = render_to_string(
+                "password_reset_email.html",
+                {"recipient_name": recipient_name, "absolute_link": absolute},
+            )
             data = {
-                "email_body": email_body,
+                "email_body": html_content,
                 "to_email": user.email,
-                "email_subject": "Reset your password",
+                "email_subject": "Password Reset Instructions for Tasty Tracks",
             }
             send_normal_email(data)
 
@@ -216,12 +221,25 @@ class SetNewPasswordSerializer(serializers.Serializer):
 
             user_id = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(id=user_id)
+            recipient_name = user.first_name + " " + user.last_name
             if not PasswordResetTokenGenerator().check_token(user, token):
                 raise AuthenticationFailed("The reset link is invalid or expired", 401)
             if password != confirm_password:
                 raise AuthenticationFailed("Passwords do not match")
             user.set_password(password)
             user.save()
+
+            html_content = render_to_string(
+                "password_reset_complete_email.html",
+                {"recipient_name": recipient_name},
+            )
+            data = {
+                "email_body": html_content,
+                "to_email": user.email,
+                "email_subject": "Password Changed Successfully: Your Account Is Secure",
+            }
+            send_normal_email(data)
+
             return user
         except Exception as e:
             raise AuthenticationFailed("The reset link is invalid or expired", 401)

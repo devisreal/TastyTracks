@@ -12,10 +12,7 @@ from users.api.views import (
     SetNewPasswordView,
     LogoutUserView,
 )
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+from rest_framework_simplejwt.views import TokenRefreshView
 
 router = routers.DefaultRouter()
 
@@ -23,15 +20,14 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path("", include(router.urls)),
     path("login/", UserLoginAPIView.as_view(), name="user-login"),
-    path("verify-email/", VerifyUserEmail.as_view(), name="verfiy-email"),
+    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path(
         "create-restaurant/", CreateRestaurantView.as_view(), name="create-restaurant"
     ),
     path("create-customer/", CreateCustomerView.as_view(), name="create-customer"),
+    path("verify-email/", VerifyUserEmail.as_view(), name="verfiy-email"),
     path("users/", UserList.as_view(), name="user-list"),
     path("users/me/", UserDetails.as_view(), name="user-details"),
-    path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("password-reset/", PasswordResetView.as_view(), name="password-reset"),
     path(
         "password-reset-confirm/<uidb64>/<token>/",

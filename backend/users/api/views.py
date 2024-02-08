@@ -14,7 +14,7 @@ from rest_framework import status
 from users.api.permissions import IsCustomer, IsOwner
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework_simplejwt.tokens import RefreshToken
-from users.utils import send_code_to_user
+from users.utils import send_verification_otp
 from rest_framework.generics import GenericAPIView
 from users.models import OneTimePassword
 from django.utils.http import urlsafe_base64_decode
@@ -37,7 +37,7 @@ class CreateRestaurantView(APIView):
         data = {}
         if serializer.is_valid():
             restaurant = serializer.save()
-            send_code_to_user(restaurant.user.email)
+            send_verification_otp(restaurant.user.email)
 
             data["response"] = "Registration Successful!"
             data["username"] = restaurant.user.username
@@ -71,7 +71,7 @@ class CreateCustomerView(APIView):
         data = {}
         if serializer.is_valid():
             customer = serializer.save()
-            send_code_to_user(customer.user.email)
+            send_verification_otp(customer.user.email)
 
             data["response"] = "Registration Successful!"
             data["username"] = customer.user.username
