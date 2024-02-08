@@ -4,7 +4,7 @@ from users.models import User, Customer, Restaurant
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):    
-    list_display = ('username','first_name', 'last_name', 'email', 'is_staff', 'is_customer', 'is_owner',)    
+    list_display = ('username','first_name', 'last_name', 'email', 'is_staff', 'is_customer', 'is_owner', 'is_verified')    
     list_filter = ['first_name', 'last_name', 'date_joined', 'is_active']
     search_fields = ['first_name','last_name', 'email']
     ordering = ['id', '-first_name']
