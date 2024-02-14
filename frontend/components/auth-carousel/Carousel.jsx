@@ -4,6 +4,7 @@ import { Carousel } from "@mantine/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useRef } from "react";
 import classes from "./Carousel.module.css";
+import Image from 'next/image'
 
 export default function AuthCarousel() {
   const autoplay = useRef(Autoplay({ delay: 7000 }));
@@ -31,28 +32,37 @@ export default function AuthCarousel() {
       >
         <Carousel.Slide>
           <div className="w-full">
-            <img
-              alt=""
+            <Image
+              alt="Auth Carousel"
               src="/images/auth/image.png"
               className="absolute inset-0 h-full w-full pr-1"
+              sizes="auto"
+              fill={true}
+              quality={100}
             />
           </div>
         </Carousel.Slide>
         <Carousel.Slide>
           <div className="w-full">
-            <img
-              alt=""
+            <Image
+              alt="Auth Carousel"
               src="/images/auth/image2.png"
               className="absolute inset-0 h-full w-full pr-1"
+              sizes="auto"
+              fill={true}
+              quality={100}
             />
           </div>
         </Carousel.Slide>
         <Carousel.Slide>
           <div className="w-full">
-            <img
-              alt=""
+            <Image
+              alt="Auth Carousel"
               src="/images/auth/image3.png"
               className="absolute inset-0 h-full w-full pr-1"
+              sizes="auto"
+              fill={true}
+              quality={100}
             />
           </div>
         </Carousel.Slide>
