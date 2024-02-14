@@ -126,7 +126,7 @@ export default function LoginForm() {
       </Button>
 
       <p className="mt-4 flex justify-center gap-2 text-center text-gray-800 sm:mt-0">
-        Don't have an account?{" "}
+        Don&apos;t have an account?{" "}
         <Link
           href="/auth/signup/"
           className="group inline-flex items-center gap-2 font-medium text-gray-800 underline"

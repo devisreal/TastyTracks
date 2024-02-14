@@ -76,7 +76,7 @@ function TermsOfUseModal() {
             5. Disclaimer
           </h2>
           <p className="mb-3 font-geist">
-            Our website is provided on an "as is" and "as available" basis. We
+            Our website is provided on an &ldquo;as is&rdquo; and &ldquo;as available&rdquo; basis. We
             make no warranties or representations of any kind, express or
             implied, regarding the accuracy, reliability, or availability of our
             website.

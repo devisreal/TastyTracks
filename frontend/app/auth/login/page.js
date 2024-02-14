@@ -22,8 +22,8 @@ export default function LoginPage() {
       <LoginForm />
 
       <p className="max-w-2xl text-center">
-        Welcome back! Please log in to access your account. If you don't have an
-        account yet, you can create one by clicking on the 'Sign Up' button
+        Welcome back! Please log in to access your account. If you don&apos;t have an
+        account yet, you can create one by clicking on the &lsquo;Sign Up&rsquo; button
         below. We take your privacy seriously and will never share your
         information with third parties.
       </p>
