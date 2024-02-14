@@ -2,6 +2,7 @@ import { Inter, Outfit } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import "@mantine/core/styles.css";
+import "@mantine/carousel/styles.css";
 
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { GeistSans } from "geist/font/sans";
@@ -64,7 +65,7 @@ export default function RootLayout({ children }) {
           <Toaster
             richColors
             closeButton
-            toastOptions={{              
+            toastOptions={{
               className: "font-geist text-lg",
             }}
           />
