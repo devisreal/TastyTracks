@@ -4,7 +4,7 @@ import { Carousel } from "@mantine/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useRef } from "react";
 import classes from "./Carousel.module.css";
-import Image from 'next/image'
+import Image from "next/image";
 
 export default function AuthCarousel() {
   const autoplay = useRef(Autoplay({ delay: 7000 }));

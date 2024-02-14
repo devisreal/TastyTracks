@@ -10,7 +10,7 @@ export default function NotFound() {
         </h1>
         <p className="text-gray-500 md:text-xl/relaxed">Page Not Found</p>
       </div>
-      <p className="font-geist mb-6 text-sm text-gray-500 md:text-base">
+      <p className="mb-6 font-geist text-sm text-gray-500 md:text-base">
         Sorry, we couldn&apos;t find the page you&apos;re looking for.
       </p>
       <Button component={Link} href="/" variant="light" color="primary">

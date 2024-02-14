@@ -26,6 +26,10 @@ export default function VerifyEmailForm() {
               fontFamily: "var(--font-geist-sans)",
               fontWeight: 600,
             },
+            pinInput: {
+              outline: "2px solid #f68b1e",
+              outlineOffset: "-2px",
+            },
           }}
         />
       </fieldset>
