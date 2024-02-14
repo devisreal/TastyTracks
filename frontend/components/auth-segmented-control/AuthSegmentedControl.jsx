@@ -15,7 +15,7 @@ export default function AuthSegmentedControl() {
     } else if (pathname === "/auth/signup") {
       setValue("signup");
     }
-  }, [pathname]);
+  }, [pathname, setValue]);
 
   return (
     <SegmentedControl
