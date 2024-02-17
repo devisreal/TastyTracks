@@ -23,13 +23,13 @@ class CustomerAdmin(admin.ModelAdmin):
     get_firstname.short_description = 'Customer First name'
 
     def get_lastname(self, obj):
-        return obj.user.first_name
+        return obj.user.last_name
     get_lastname.admin_order_field  = 'lastname'
     get_lastname.short_description = 'Customer Last name'
 
     def get_email(self, obj):
         return obj.user.email
-    get_email.admin_order_field  = 'firstname'
+    get_email.admin_order_field  = 'email'
     get_email.short_description = 'Customer Email'
 
 @admin.register(Restaurant)
@@ -41,7 +41,7 @@ class RestaurantAdmin(admin.ModelAdmin):
     
     def get_email(self, obj):
         return obj.user.email
-    get_email.admin_order_field  = 'firstname'
+    get_email.admin_order_field  = 'email'
     get_email.short_description = 'Restaurant Email'
 
     # def get_lastname(self, obj):

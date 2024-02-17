@@ -12,6 +12,9 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import YupPassword from "yup-password";
 YupPassword(Yup);
+import axios from "axios";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,6 +22,7 @@ export default function LoginForm() {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+  const router = useRouter();
 
   return (
     <Formik
@@ -34,17 +38,39 @@ export default function LoginForm() {
           .required("Required"),
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        setTimeout(() => {
+        setTimeout(async () => {
+          const { email, password } = values;
+          const res = await axios.post(
+            "http://localhost:8000/api/login/",
+            values,
+          );
+          const response = res.data;          
+          const user = {
+            email: response.email,
+            username: response.username,
+            full_name: response.full_name,
+          };
+          if (res.status === 200) {
+            localStorage.setItem("user", JSON.stringify(user));
+            localStorage.setItem("access", response.tokens.access);
+            localStorage.setItem("refresh", response.tokens.refresh);
+            router.push("/users/profile");
+            toast.success("Login Successful");
+          }
+
           setSubmitting(false);
-          alert(JSON.stringify(values, null, 2));
-          resetForm({
-            values: "",
-          });
-        }, 4000);
+          // alert(JSON.stringify(values, null, 2));
+          // resetForm({
+          //   values: "",
+          // });
+        }, 1000);
       }}
     >
       {(formik) => (
-        <form className="w-full space-y-4 font-geist sm:w-[36rem]" onSubmit={formik.handleSubmit}>
+        <form
+          className="w-full space-y-4 font-geist sm:w-[36rem]"
+          onSubmit={formik.handleSubmit}
+        >
           {/* Email */}
           <fieldset className="">
             <label

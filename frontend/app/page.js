@@ -25,7 +25,7 @@ export default function Home() {
         <Button
           component={Link}
           href="/auth/login/"
-          variant="subtle"
+          variant="light"
           color="primary"
         >
           Login

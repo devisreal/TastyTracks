@@ -65,8 +65,17 @@ export default function RootLayout({ children }) {
           <Toaster
             richColors
             closeButton
+            position="bottom-center"
             toastOptions={{
-              className: "font-geist text-lg",
+              className: "font-geist",
+              classNames: {
+                toast: "text-md font-bold",
+                title: "text-md font-bold",
+                description: "text-md font-bold",                
+              },
+            }}
+            style={{
+              fontSize: "2.25rem", // 18px
             }}
           />
         </MantineProvider>

@@ -1,14 +1,20 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { toast } from "sonner";
+
 import {
   IconEye,
   IconEyeOff,
   IconArrowRight,
   IconArrowUpRight,
+  IconSquareRoundedLetterR,
 } from "@tabler/icons-react";
 import { Button } from "@mantine/core";
-import Link from "next/link";
 import { TermsOfUseModal, PrivacyPolicyModal } from "../AuthModals";
+
 import * as Yup from "yup";
 import { Formik } from "formik";
 import YupPassword from "yup-password";
@@ -25,6 +31,8 @@ export default function SignUpForm() {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
+  const router = useRouter();
+
   return (
     <Formik
       initialValues={{
@@ -32,7 +40,7 @@ export default function SignUpForm() {
         last_name: "",
         email: "",
         password: "",
-        confirm_password: "",
+        password2: "",
         accepted_terms: false,
       }}
       validationSchema={Yup.object({
@@ -43,7 +51,7 @@ export default function SignUpForm() {
           .min(8, "Password must be 6 characters or more")
           .minUppercase(1, "Password requires at least 1 uppercase character")
           .required("Required"),
-        confirm_password: Yup.string()
+        password2: Yup.string()
           .oneOf([Yup.ref("password"), null], "Passwords must match")
           .required("Required"),
         accepted_terms: Yup.boolean()
@@ -51,13 +59,33 @@ export default function SignUpForm() {
           .oneOf([true], "You must accept the terms and conditions."),
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        setTimeout(() => {
+        setTimeout(async () => {
+          const { first_name, last_name, email, password, password2 } = values;
+          const res = await axios.post(
+            "http://localhost:8000/api/create-customer/",
+            {
+              user: {
+                first_name,
+                last_name,
+                email,
+                password,
+                password2,
+              },
+            },
+          );
+          const response = res.data;          
+          if (res.status === 201) {
+            router.push("/auth/verify-email/");
+            toast.success(response.message, { duration: 6000 });
+            setSubmitting(false);
+          }
+
           setSubmitting(false);
-          alert(JSON.stringify(values, null, 2));
-          resetForm({
-            values: "",
-          });
-        }, 4000);
+          // alert(JSON.stringify(values, null, 2));
+          // resetForm({
+          //   values: "",
+          // });
+        }, 1000);
       }}
     >
       {(formik) => (
@@ -245,7 +273,7 @@ export default function SignUpForm() {
           {/* Confirm Password */}
           <fieldset className="">
             <label
-              htmlFor="confirm_password"
+              htmlFor="password2"
               className="sr-only mb-2 block text-sm font-medium"
             >
               Confirm Password
@@ -253,9 +281,9 @@ export default function SignUpForm() {
             <div className="relative">
               <input
                 type={showConfirmPassword ? "text" : "password"}
-                id="confirm_password"
-                {...formik.getFieldProps("confirm_password")}
-                className={`block w-full rounded-lg border-gray-200 px-4 py-4 ps-14 text-gray-800 shadow-sm focus:z-10 focus:border-primary-400 focus:ring-primary-400 ${formik.touched.confirm_password && formik.errors.confirm_password ? "border-red-500 ring-1 ring-red-500" : ""}`}
+                id="password2"
+                {...formik.getFieldProps("password2")}
+                className={`block w-full rounded-lg border-gray-200 px-4 py-4 ps-14 text-gray-800 shadow-sm focus:z-10 focus:border-primary-400 focus:ring-primary-400 ${formik.touched.password2 && formik.errors.password2 ? "border-red-500 ring-1 ring-red-500" : ""}`}
                 placeholder="Confirm Password"
               />
               <div className="pointer-events-none absolute inset-y-0 start-0 z-20 flex items-center gap-3 ps-4">
@@ -287,11 +315,8 @@ export default function SignUpForm() {
                 </button>
               </div>
             </div>
-            {formik.touched.confirm_password &&
-            formik.errors.confirm_password ? (
-              <small className="text-red-500">
-                {formik.errors.confirm_password}
-              </small>
+            {formik.touched.password2 && formik.errors.password2 ? (
+              <small className="text-red-500">{formik.errors.password2}</small>
             ) : null}
           </fieldset>
 
@@ -318,6 +343,7 @@ export default function SignUpForm() {
               </small>
             ) : null}
           </fieldset>
+
           <Button
             type="submit"
             fullWidth

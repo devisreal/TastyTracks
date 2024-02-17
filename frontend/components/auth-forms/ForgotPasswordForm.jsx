@@ -4,8 +4,13 @@ import { Button } from "@mantine/core";
 import Link from "next/link";
 import * as Yup from "yup";
 import { Formik } from "formik";
+import api from "@/utils/api";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import axios from 'axios'
 
 export default function ForgotPasswordForm() {
+  const router = useRouter();
   return (
     <Formik
       initialValues={{
@@ -15,13 +20,19 @@ export default function ForgotPasswordForm() {
         email: Yup.string().email("Invalid email address").required("Required"),
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        setTimeout(() => {
-          setSubmitting(false);
-          alert(JSON.stringify(values, null, 2));
-          resetForm({
-            values: "",
+        setTimeout(async () => {
+          const res = await axios.post("http://localhost:8000/api/password-reset/", {
+            email: values.email,
           });
-        }, 4000);
+          if (res.status === 200) {
+            toast.success(res.data.message);
+            setSubmitting(false);
+            resetForm({
+              values: "",
+            });
+            router.push("/auth/login");
+          }
+        }, 1000);
       }}
     >
       {(formik) => (

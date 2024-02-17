@@ -2,16 +2,17 @@
 import React, { useState, useEffect } from "react";
 import Logo from "@/components/Logo";
 import AuthSegmentedControl from "@/components/auth-segmented-control/AuthSegmentedControl";
-import SignUpForm from "@/components/auth-forms/SignUpForm";
+import ResetPasswordForm from "@/components/auth-forms/ResetPasswordForm";
 import { Loader } from "@mantine/core";
 
-export default function SignUpPage() {
+export default function ResetPasswordPage({ params }) {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
     }, 700);
   }, []);
+  
 
   return (
     <>
@@ -25,24 +26,15 @@ export default function SignUpPage() {
 
           <div className=" text-center">
             <h1 className="font-clash text-3xl font-semibold sm:text-4xl">
-              Sign Up
+              Reset Password
             </h1>
             <p className="font-geist text-neutral-600 max-md:max-w-full">
               {" "}
-              Join us today to unlock exclusive features.
+              Enter your new password below to reset your account password
             </p>
           </div>
 
-          <div className=" w-80">
-            <AuthSegmentedControl />
-          </div>
-
-          <SignUpForm />
-          {/* <p className="max-w-2xl text-center">
-        Welcome! To get started, create your account below. If you already have
-        an account, you can log in to access it. Rest assured, we prioritize
-        your privacy and never share your information with third parties.
-      </p> */}
+          <ResetPasswordForm params={params} />
         </div>
       )}
     </>

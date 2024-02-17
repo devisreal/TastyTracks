@@ -79,6 +79,7 @@ class UserLoginSerializer(serializers.Serializer):
                     return {
                         "email": email,
                         "username": username,
+                        "full_name": f"{user.first_name} {user.last_name}",
                         "tokens": {
                             "refresh": str(refresh),
                             "access": str(refresh.access_token),
@@ -182,9 +183,9 @@ class PasswordResetSerializer(serializers.Serializer):
             uuid64 = urlsafe_base64_encode(smart_bytes(user.id))
             token = PasswordResetTokenGenerator().make_token(user)
             request = self.context.get("request")
-            site_domain = get_current_site(request).domain
+            site_domain = "localhost:8080/auth"
             relative_link = reverse(
-                "password-reset-confirm", kwargs={"uidb64": uuid64, "token": token}
+                "reset-password", kwargs={"uidb64": uuid64, "token": token}
             )
             absolute = f"http://{site_domain}{relative_link}"
             html_content = render_to_string(

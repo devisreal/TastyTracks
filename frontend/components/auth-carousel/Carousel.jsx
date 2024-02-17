@@ -39,6 +39,7 @@ export default function AuthCarousel() {
               sizes="auto"
               fill={true}
               quality={100}
+              priority={true}
             />
           </div>
         </Carousel.Slide>
@@ -51,6 +52,7 @@ export default function AuthCarousel() {
               sizes="auto"
               fill={true}
               quality={100}
+              priority={true}
             />
           </div>
         </Carousel.Slide>
@@ -63,6 +65,7 @@ export default function AuthCarousel() {
               sizes="auto"
               fill={true}
               quality={100}
+              priority={true}
             />
           </div>
         </Carousel.Slide>

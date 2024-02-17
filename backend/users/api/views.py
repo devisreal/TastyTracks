@@ -148,7 +148,9 @@ class PasswordResetView(GenericAPIView):
         )
         serializer.is_valid(raise_exception=True)
         return Response(
-            {"message": "Password reset email sent successfully"},
+            {
+                "message": "A link to reset your password has been sent to the registered email."
+            },
             status=status.HTTP_200_OK,
         )
 
@@ -203,5 +205,14 @@ class LogoutUserView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         return Response(
             {"success": True, "message": "Password Reset Success"},
-            status=status.HTTP_204_NO_CONTENT,
+            status=status.HTTP_200_OK,
         )
+
+
+class TestAuthenticationView(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        data = {"msg": "it works"}
+
+        return Response(data, status=status.HTTP_200_OK)
