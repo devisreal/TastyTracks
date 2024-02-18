@@ -10,7 +10,7 @@ if (typeof window !== "undefined") {
   refresh_token = localStorage.getItem("refresh") || "";
 }
 
-const API_URL = "https://tasty-tracks.onrender.com/api/";
+const API_URL = "https://tasty-tracks.onrender.com/api";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -20,7 +20,7 @@ const api = axios.create({
   },
 });
 
-api.interceptors.request.use(async req => {
+api.interceptors.request.use(async (req) => {
   // if (access_token) {
   //   req.headers.Authorization = access_token ? `Bearer ${access_token}` : "";
   //   const user = jwtDecode(access_token);
@@ -55,20 +55,24 @@ api.interceptors.request.use(async req => {
 
   if (access_token) {
     //  accessToken=localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')) : null
-    req.headers.Authorization = localStorage.getItem('access') ? `Bearer ${access_token}` : ""
-    const user = jwtDecode(access_token)
-    const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1
-    if (!isExpired) return req
+    req.headers.Authorization = localStorage.getItem("access")
+      ? `Bearer ${access_token}`
+      : "";
+    const user = jwtDecode(access_token);
+    const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
+    if (!isExpired) return req;
     const resp = await axios.post(`${API_URL}/token/refresh/`, {
-       refresh: refresh_token
-    })    
-    localStorage.setItem('access', JSON.stringify(resp.data.access))
-    req.headers.Authorization = `Bearer ${resp.data.access}`
-    return req
- } else {
-    req.headers.Authorization = localStorage.getItem('access') ? `Bearer ${localStorage.getItem('access')}` : " "
-    return req
- }
+      refresh: refresh_token,
+    });
+    localStorage.setItem("access", JSON.stringify(resp.data.access));
+    req.headers.Authorization = `Bearer ${resp.data.access}`;
+    return req;
+  } else {
+    req.headers.Authorization = localStorage.getItem("access")
+      ? `Bearer ${localStorage.getItem("access")}`
+      : " ";
+    return req;
+  }
 });
 
 export default api;
