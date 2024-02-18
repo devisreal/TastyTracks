@@ -5,12 +5,13 @@ import api from "@/utils/api";
 import { toast } from "sonner";
 import { Button } from "@mantine/core";
 
+const ISSERVER = typeof window === "undefined";
+
 export default function ProfilePage() {
   const router = useRouter();
-  const user = JSON.parse(localStorage.getItem("user"));
-  const jwt_access = localStorage.getItem("access");
-  const jwt_refresh = localStorage.getItem("refresh");
-  const ISSERVER = typeof window === "undefined";
+  const user = !ISSERVER ? JSON.parse(localStorage.getItem("user")) : "";
+  const jwt_access = !ISSERVER ? localStorage.getItem("access") : "";
+  const jwt_refresh = !ISSERVER ? localStorage.getItem("refresh") : "";
 
   useEffect(() => {
     if (jwt_access === null && !user) {
@@ -32,12 +33,11 @@ export default function ProfilePage() {
       refresh_token: jwt_refresh,
     });
     if (res.status === 200) {
-      // if (typeof window !== "undefined") {
-      //   window.localStorage.removeItem("access");
-      //   window.localStorage.removeItem("refresh");
-      //   window.localStorage.removeItem("user");
-      // }
-      if (!ISSERVER) localStorage.removeItem("access");
+      if (!ISSERVER) {
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+        localStorage.removeItem("user");
+      }
       router.push("/auth/login");
       toast.success("Logged out successfully!");
     }
