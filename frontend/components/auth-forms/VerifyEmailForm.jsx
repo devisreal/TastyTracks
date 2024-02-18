@@ -22,7 +22,7 @@ export default function VerifyEmailForm() {
     setTimeout(async () => {
       if (otp.length === 6) {
         const res = await axios.post(
-          "http://localhost:8000/api/verify-email/",
+          "https://tasty-tracks.onrender.com/api/verify-email/",
           {
             otp: otp,
           },

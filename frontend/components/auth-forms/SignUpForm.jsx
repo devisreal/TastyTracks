@@ -62,7 +62,7 @@ export default function SignUpForm() {
         setTimeout(async () => {
           const { first_name, last_name, email, password, password2 } = values;
           const res = await axios.post(
-            "http://localhost:8000/api/create-customer/",
+            "https://tasty-tracks.onrender.com/api/create-customer/",
             {
               user: {
                 first_name,

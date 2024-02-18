@@ -21,7 +21,7 @@ export default function ForgotPasswordForm() {
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setTimeout(async () => {
-          const res = await axios.post("http://localhost:8000/api/password-reset/", {
+          const res = await axios.post("https://tasty-tracks.onrender.com/api/password-reset/", {
             email: values.email,
           });
           if (res.status === 200) {
