@@ -17,7 +17,7 @@ export default function ProfilePage() {
     } else {
       getSomeData();
     }
-  }, []);
+  }, [jwt_access, user, router]);
 
   const getSomeData = async () => {
     const res = await api.get("/test-auth/");
@@ -32,9 +32,9 @@ export default function ProfilePage() {
     });
     if (res.status === 200) {
       if (typeof window !== "undefined") {
-        localStorage.removeItem("access");
-        localStorage.removeItem("refresh");
-        localStorage.removeItem("user");
+        window.localStorage.removeItem("access");
+        window.localStorage.removeItem("refresh");
+        window.localStorage.removeItem("user");
       }
       router.push("/auth/login");
       toast.success("Logged out successfully!");
