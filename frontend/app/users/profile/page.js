@@ -17,7 +17,7 @@ export default function ProfilePage() {
     } else {
       getSomeData();
     }
-  }, [jwt_access, user]);
+  }, []);
 
   const getSomeData = async () => {
     const res = await api.get("/test-auth/");
@@ -31,9 +31,11 @@ export default function ProfilePage() {
       refresh_token: jwt_refresh,
     });
     if (res.status === 200) {
-      localStorage.removeItem("access");
-      localStorage.removeItem("refresh");
-      localStorage.removeItem("user");
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+        localStorage.removeItem("user");
+      }
       router.push("/auth/login");
       toast.success("Logged out successfully!");
     }
@@ -56,7 +58,7 @@ export default function ProfilePage() {
               Full name
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-            {user && user.full_name}
+              {user && user.full_name}
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
