@@ -10,6 +10,7 @@ export default function ProfilePage() {
   const user = JSON.parse(localStorage.getItem("user"));
   const jwt_access = localStorage.getItem("access");
   const jwt_refresh = localStorage.getItem("refresh");
+  const ISSERVER = typeof window === "undefined";
 
   useEffect(() => {
     if (jwt_access === null && !user) {
@@ -31,11 +32,12 @@ export default function ProfilePage() {
       refresh_token: jwt_refresh,
     });
     if (res.status === 200) {
-      if (typeof window !== "undefined") {
-        window.localStorage.removeItem("access");
-        window.localStorage.removeItem("refresh");
-        window.localStorage.removeItem("user");
-      }
+      // if (typeof window !== "undefined") {
+      //   window.localStorage.removeItem("access");
+      //   window.localStorage.removeItem("refresh");
+      //   window.localStorage.removeItem("user");
+      // }
+      if (!ISSERVER) localStorage.removeItem("access");
       router.push("/auth/login");
       toast.success("Logged out successfully!");
     }
