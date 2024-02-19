@@ -82,7 +82,7 @@ Tasty Tracks is an online food ordering system that allows customers to explore 
   python manage.py runserver
   ```
 
-5. Open your browser and visit [http://localhost:3000](http://localhost:3000).
+5. Open your browser and visit [http://localhost:8080](http://localhost:8080).
 
 ## License
 

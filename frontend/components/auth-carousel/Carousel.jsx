@@ -34,7 +34,7 @@ export default function AuthCarousel() {
           <div className="w-full">
             <Image
               alt="Auth Carousel"
-              src="/images/auth/image.png"
+              src="/images/auth/image.webp"
               className="absolute inset-0 h-full w-full pr-1"
               sizes="auto"
               fill={true}
@@ -47,7 +47,7 @@ export default function AuthCarousel() {
           <div className="w-full">
             <Image
               alt="Auth Carousel"
-              src="/images/auth/image2.png"
+              src="/images/auth/image2.webp"
               className="absolute inset-0 h-full w-full pr-1"
               sizes="auto"
               fill={true}
@@ -60,7 +60,7 @@ export default function AuthCarousel() {
           <div className="w-full">
             <Image
               alt="Auth Carousel"
-              src="/images/auth/image3.png"
+              src="/images/auth/image3.webp"
               className="absolute inset-0 h-full w-full pr-1"
               sizes="auto"
               fill={true}

@@ -10,7 +10,8 @@ if (typeof window !== "undefined") {
   refresh_token = localStorage.getItem("refresh") || "";
 }
 
-const API_URL = " http://localhost:8000/api";
+// const API_URL = " http://localhost:8000/api";
+const API_URL = "https://tasty-tracks.onrender.com/api";
 
 const api = axios.create({
   baseURL: API_URL,
