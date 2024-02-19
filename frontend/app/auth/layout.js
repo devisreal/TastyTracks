@@ -1,4 +1,3 @@
-"use client";
 import AuthCarousel from "@/components/auth-carousel/Carousel";
 import { ValueProvider } from "@/contexts/ValueContext";
 

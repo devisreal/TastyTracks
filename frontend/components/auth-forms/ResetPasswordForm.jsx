@@ -11,24 +11,31 @@ import { Formik } from "formik";
 import YupPassword from "yup-password";
 YupPassword(Yup);
 import api from "@/utils/api";
-
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function ResetPasswordForm({ params }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
-
-  const router = useRouter();
+  const { resetPassword } = useAuth();
 
   const {
     slug: [uuid, token],
   } = params;
+
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    const data = {
+      password: values.password,
+      confirm_password: values.password2,
+      uidb64: uuid,
+      token: token,
+    };
+    try {
+      await resetPassword(data, setSubmitting, resetForm);
+    } catch (error) {
+      console.error("Reset Password Error:", error);
+      // Handle reset password error (e.g., display error message)
+    }
+  };
 
   return (
     <Formik
@@ -45,27 +52,7 @@ export default function ResetPasswordForm({ params }) {
           .oneOf([Yup.ref("password"), null], "Passwords must match")
           .required("Required"),
       })}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        const data={
-            "password": values.password,
-            "confirm_password": values.password2,
-            "uidb64": uuid,
-            "token": token,
-          }
-        setTimeout(async () => {
-          const res = await api.patch("/set-new-password/", data);
-          const response = res.data;
-          if (res.status === 200) {
-            router.push("/auth/login/");
-            toast.success(response.message, { duration: 6000 });
-          }
-
-          setSubmitting(false);          
-          // resetForm({
-          //   values: "",
-          // });
-        }, 1000);
-      }}
+      onSubmit={handleSubmit}
     >
       {(formik) => (
         <form
@@ -110,7 +97,7 @@ export default function ResetPasswordForm({ params }) {
               <div className="absolute inset-y-0 end-0 z-20 flex items-center pe-4">
                 <button
                   type="button"
-                  onClick={togglePasswordVisibility}
+                  onClick={() => setShowPassword(!showPassword)}
                   className="cursor-pointer text-gray-500"
                 >
                   {showPassword ? <IconEyeOff /> : <IconEye />}
@@ -159,7 +146,7 @@ export default function ResetPasswordForm({ params }) {
               <div className="absolute inset-y-0 end-0 z-20 flex items-center pe-4">
                 <button
                   type="button"
-                  onClick={toggleConfirmPasswordVisibility}
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="cursor-pointer text-gray-500"
                 >
                   {showConfirmPassword ? <IconEyeOff /> : <IconEye />}

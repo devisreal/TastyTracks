@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { SegmentedControl } from "@mantine/core";
 import classes from "./AuthSegmentedControl.module.css";
 import { useRouter, usePathname } from "next/navigation";
@@ -9,10 +9,10 @@ export default function AuthSegmentedControl() {
   const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (pathname === "/auth/login") {
       setValue("login");
-    } else if (pathname === "/auth/signup") {
+    } else if (pathname === "/auth/customer/signup") {
       setValue("signup");
     }
   }, [pathname, setValue]);
@@ -46,7 +46,7 @@ export default function AuthSegmentedControl() {
             <button
               className="h-full w-full"
               onClick={() => {
-                router.push("/auth/signup");
+                router.push("/auth/customer/signup");
                 setValue("signup");
               }}
             >

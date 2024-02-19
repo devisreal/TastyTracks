@@ -7,6 +7,7 @@ import "@mantine/carousel/styles.css";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { GeistSans } from "geist/font/sans";
 import { Toaster } from "sonner";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
 const clash_grotesk = localFont({
@@ -61,7 +62,7 @@ export default function RootLayout({ children }) {
             },
           }}
         >
-          {children}
+          <AuthProvider>{children}</AuthProvider>
           <Toaster
             richColors
             closeButton
@@ -71,7 +72,7 @@ export default function RootLayout({ children }) {
               classNames: {
                 toast: "text-md font-bold",
                 title: "text-md font-bold",
-                description: "text-md font-bold",                
+                description: "text-md font-bold",
               },
             }}
             style={{

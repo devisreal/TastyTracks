@@ -1,16 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-import { toast } from "sonner";
 
 import {
   IconEye,
   IconEyeOff,
   IconArrowRight,
   IconArrowUpRight,
-  IconSquareRoundedLetterR,
 } from "@tabler/icons-react";
 import { Button } from "@mantine/core";
 import { TermsOfUseModal, PrivacyPolicyModal } from "../AuthModals";
@@ -18,20 +14,22 @@ import { TermsOfUseModal, PrivacyPolicyModal } from "../AuthModals";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import YupPassword from "yup-password";
+import { useAuth } from "@/contexts/AuthContext";
 YupPassword(Yup);
 
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);  
+  const { signupCustomer } = useAuth();
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    try {
+      await signupCustomer(values, resetForm, setSubmitting);
+    } catch (error) {
+      console.error("Signup Error:", error);
+      // Handle signup error (e.g., display error message)
+    }
   };
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
-
-  const router = useRouter();
 
   return (
     <Formik
@@ -58,35 +56,7 @@ export default function SignUpForm() {
           .required("Required")
           .oneOf([true], "You must accept the terms and conditions."),
       })}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        setTimeout(async () => {
-          const { first_name, last_name, email, password, password2 } = values;
-          const res = await axios.post(
-            "https://tasty-tracks.onrender.com/api/create-customer/",
-            {
-              user: {
-                first_name,
-                last_name,
-                email,
-                password,
-                password2,
-              },
-            },
-          );
-          const response = res.data;          
-          if (res.status === 201) {
-            router.push("/auth/verify-email/");
-            toast.success(response.message, { duration: 6000 });
-            setSubmitting(false);
-          }
-
-          setSubmitting(false);
-          // alert(JSON.stringify(values, null, 2));
-          // resetForm({
-          //   values: "",
-          // });
-        }, 1000);
-      }}
+      onSubmit={handleSubmit}
     >
       {(formik) => (
         <form
@@ -258,7 +228,7 @@ export default function SignUpForm() {
               <div className="absolute inset-y-0 end-0 z-20 flex items-center pe-4">
                 <button
                   type="button"
-                  onClick={togglePasswordVisibility}
+                  onClick={() => setShowPassword(!showPassword)}
                   className="cursor-pointer text-gray-500"
                 >
                   {showPassword ? <IconEyeOff /> : <IconEye />}
@@ -308,7 +278,7 @@ export default function SignUpForm() {
               <div className="absolute inset-y-0 end-0 z-20 flex items-center pe-4">
                 <button
                   type="button"
-                  onClick={toggleConfirmPasswordVisibility}
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="cursor-pointer text-gray-500"
                 >
                   {showConfirmPassword ? <IconEyeOff /> : <IconEye />}
@@ -320,6 +290,7 @@ export default function SignUpForm() {
             ) : null}
           </fieldset>
 
+          {/* Accept Terms and Conditions */}
           <fieldset>
             <div className="flex items-center">
               <div className="flex">

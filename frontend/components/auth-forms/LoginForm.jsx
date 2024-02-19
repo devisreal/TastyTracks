@@ -12,17 +12,20 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import YupPassword from "yup-password";
 YupPassword(Yup);
-import axios from "axios";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function LoginForm() {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);  
+  const { login } = useAuth();
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const handleLogin = async (values, { setSubmitting, resetForm }) => {
+    try {
+      await login(values, resetForm, setSubmitting);
+    } catch (error) {
+      console.error("Login Error:", error);
+      // Handle login error (e.g., display error message)
+    }
   };
-  const router = useRouter();
 
   return (
     <Formik
@@ -37,34 +40,7 @@ export default function LoginForm() {
           .minUppercase(1, "Password requires at least 1 uppercase character")
           .required("Required"),
       })}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        setTimeout(async () => {
-          const { email, password } = values;
-          const res = await axios.post(
-            "https://tasty-tracks.onrender.com/api/login/",
-            values,
-          );
-          const response = res.data;          
-          const user = {
-            email: response.email,
-            username: response.username,
-            full_name: response.full_name,
-          };
-          if (res.status === 200) {
-            localStorage.setItem("user", JSON.stringify(user));
-            localStorage.setItem("access", response.tokens.access);
-            localStorage.setItem("refresh", response.tokens.refresh);
-            router.push("/users/profile");
-            toast.success("Login Successful");
-          }
-
-          setSubmitting(false);
-          // alert(JSON.stringify(values, null, 2));
-          // resetForm({
-          //   values: "",
-          // });
-        }, 1000);
-      }}
+      onSubmit={handleLogin}
     >
       {(formik) => (
         <form
@@ -151,7 +127,7 @@ export default function LoginForm() {
               <div className="absolute inset-y-0 end-0 z-20 flex items-center pe-4">
                 <button
                   type="button"
-                  onClick={togglePasswordVisibility}
+                  onClick={() => setShowPassword(!showPassword)}
                   className="cursor-pointer text-gray-500"
                 >
                   {showPassword ? <IconEyeOff /> : <IconEye />}
@@ -193,7 +169,7 @@ export default function LoginForm() {
           <p className="mt-4 flex justify-center gap-2 text-center text-gray-800 sm:mt-0">
             Don&apos;t have an account?{" "}
             <Link
-              href="/auth/signup/"
+              href="/auth/customer/signup/"
               className="group inline-flex items-center gap-2 font-medium text-gray-800 underline"
             >
               Sign up{" "}

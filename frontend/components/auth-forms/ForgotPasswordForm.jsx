@@ -4,13 +4,20 @@ import { Button } from "@mantine/core";
 import Link from "next/link";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import api from "@/utils/api";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import axios from 'axios'
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function ForgotPasswordForm() {
-  const router = useRouter();
+  const { forgetPassword } = useAuth();
+
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    try {
+      await forgetPassword(values.email, setSubmitting, resetForm);
+    } catch (error) {
+      console.error("Forget Password Error:", error);
+      // Handle forget password error (e.g., display error message)
+    }
+  };
+
   return (
     <Formik
       initialValues={{
@@ -19,21 +26,7 @@ export default function ForgotPasswordForm() {
       validationSchema={Yup.object({
         email: Yup.string().email("Invalid email address").required("Required"),
       })}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        setTimeout(async () => {
-          const res = await axios.post("https://tasty-tracks.onrender.com/api/password-reset/", {
-            email: values.email,
-          });
-          if (res.status === 200) {
-            toast.success(res.data.message);
-            setSubmitting(false);
-            resetForm({
-              values: "",
-            });
-            router.push("/auth/login");
-          }
-        }, 1000);
-      }}
+      onSubmit={handleSubmit}
     >
       {(formik) => (
         <form

@@ -3,37 +3,26 @@ import React, { useState } from "react";
 import { IconArrowRight } from "@tabler/icons-react";
 import { Button } from "@mantine/core";
 import { PinInput } from "@mantine/core";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function VerifyEmailForm() {
   const [otp, setOtp] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const router = useRouter();
+  const { verifyEmail } = useAuth();  
 
   const handleChange = (value) => {
     setOtp(value);
   };
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(async () => {
-      if (otp.length === 6) {
-        const res = await axios.post(
-          "https://tasty-tracks.onrender.com/api/verify-email/",
-          {
-            otp: otp,
-          },
-        );
-        if (res.status === 200) {
-          router.push("/auth/login");
-          toast.success(res.data.message);
-          setIsSubmitting(false);
-        }
-      }
-    }, 2000);
+    try {
+      await verifyEmail(otp, setIsSubmitting);
+    } catch (error) {
+      console.error("Email Verification Error:", error);
+      // Handle verification error (e.g., display error message)
+    }
   };
   return (
     <form
