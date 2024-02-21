@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from autoslug import AutoSlugField
@@ -32,6 +33,7 @@ def customer_upload_to(instance, filename):
 
 
 class Customer(models.Model):
+    customer_id = models.UUIDField(default=uuid.uuid4, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=255)
     post_code = models.CharField(max_length=10)
@@ -58,23 +60,30 @@ def restaurant_upload_to(instance, filename):
 
 
 class Restaurant(models.Model):
+    restaurant_id = models.UUIDField(default=uuid.uuid4, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255, verbose_name="Restaurant Name")
+    store_name = models.CharField(max_length=255, verbose_name="Restaurant Store Name")
+    brand_name = models.CharField(max_length=255, verbose_name="Restaurant Brand Name")
     description = models.TextField()
-    location = models.CharField(max_length=255, null=True, blank=True)
     phone_number = models.CharField(max_length=15)
-    rating = models.FloatField(null=True, blank=True)
-    delivery_time = models.IntegerField(null=True, blank=True)  # in minutes
-    delivery_fee = models.DecimalField(
-        max_digits=6, decimal_places=2, null=True, blank=True
-    )
-    opening_hours = models.CharField(max_length=100, null=True, blank=True)
+    website = models.URLField(max_length=200, blank=True, null=True)
+    postcode = models.CharField(max_length=10)
+    address_line1 = models.CharField(max_length=255)
+    address_line2 = models.CharField(max_length=255, blank=True, null=True)
+    city = models.CharField(max_length=100)
+    country = models.CharField(max_length=100, default='United Kingdom')    
     logo = models.ImageField(upload_to=restaurant_upload_to, blank=True, null=True)
+    # rating = models.FloatField(null=True, blank=True)
+    # delivery_time = models.IntegerField(null=True, blank=True)  # in minutes
+    # delivery_fee = models.DecimalField(
+    #     max_digits=6, decimal_places=2, null=True, blank=True
+    # )
+    # opening_hours = models.CharField(max_length=100, null=True, blank=True)
 
     objects = RestaurantManager()
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.store_name}"
 
 
 class OneTimePassword(models.Model):

@@ -1,50 +1,27 @@
-"use client";
-import React, { useState, useEffect } from "react";
 import Logo from "@/components/Logo";
-import AuthSegmentedControl from "@/components/auth-segmented-control/AuthSegmentedControl";
-import SignUpForm from "@/components/auth-forms/SignUpForm";
-import { Loader } from "@mantine/core";
+import SignUpRestaurantForm from "@/components/auth-forms/SignUpRestaurantForm";
 
-export default function SignUpPage() {
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 700);
-  }, []);
+export const metadata = {
+  title: "Restaurant Sign Up | Tasty Tracks",
+  description: "...",
+};
 
+export default function RestaurantSignUpPage() {
   return (
-    <>
-      {isLoading ? (
-        <div className="flex h-full flex-col items-center justify-center gap-y-12">
-          <Loader type="bars" color="primary" />
-        </div>
-      ) : (
-        <div className="flex h-full flex-col items-center justify-center gap-y-8">
-          <Logo />
+    <div className="flex h-full flex-col justify-center  py-1 sm:gap-y-4">
+      <Logo className={"sm:mx-auto"} />
 
-          <div className=" text-center">
-            <h1 className="font-clash text-3xl font-semibold sm:text-4xl">
-              Sign Up
-            </h1>
-            <p className="font-geist text-neutral-600 max-md:max-w-full">
-              {" "}
-              Join us today to unlock exclusive features.
-            </p>
-          </div>
+      <div className="sm:text-center">
+        <h1 className="font-clash text-3xl font-semibold sm:text-4xl">
+          Add a Restaurant
+        </h1>
+        <p className="font-geist text-sm text-neutral-600 max-md:max-w-full sm:text-base">
+          {" "}
+          Expand Your Reach – Sign Up Your Restaurant with Us
+        </p>
+      </div>
 
-          <div className=" w-80">
-            <AuthSegmentedControl />
-          </div>
-
-          <SignUpForm />
-          {/* <p className="max-w-2xl text-center">
-        Welcome! To get started, create your account below. If you already have
-        an account, you can log in to access it. Rest assured, we prioritize
-        your privacy and never share your information with third parties.
-      </p> */}
-        </div>
-      )}
-    </>
+      <SignUpRestaurantForm />
+    </div>
   );
 }

@@ -17,9 +17,9 @@ import YupPassword from "yup-password";
 import { useAuth } from "@/contexts/AuthContext";
 YupPassword(Yup);
 
-export default function SignUpForm() {
+export default function SignUpCustomerForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);  
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { signupCustomer } = useAuth();
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
@@ -42,16 +42,18 @@ export default function SignUpForm() {
         accepted_terms: false,
       }}
       validationSchema={Yup.object({
-        first_name: Yup.string().required("Required"),
-        last_name: Yup.string().required("Required"),
-        email: Yup.string().email("Invalid email address").required("Required"),
+        first_name: Yup.string().required("Please enter first name"),
+        last_name: Yup.string().required("Please enter last name "),
+        email: Yup.string()
+          .email("Invalid email address")
+          .required("Please enter a valid email"),
         password: Yup.string()
           .min(8, "Password must be 6 characters or more")
           .minUppercase(1, "Password requires at least 1 uppercase character")
-          .required("Required"),
+          .required("Choose a password"),
         password2: Yup.string()
           .oneOf([Yup.ref("password"), null], "Passwords must match")
-          .required("Required"),
+          .required("Repeat your password"),
         accepted_terms: Yup.boolean()
           .required("Required")
           .oneOf([true], "You must accept the terms and conditions."),
@@ -65,7 +67,7 @@ export default function SignUpForm() {
         >
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-between">
             {/* Firstname */}
-            <fieldset className="">
+            <fieldset className="w-full">
               <label
                 htmlFor="first_name"
                 className="sr-only mb-2 block text-sm font-medium"
@@ -77,7 +79,7 @@ export default function SignUpForm() {
                   type="text"
                   id="first_name"
                   {...formik.getFieldProps("first_name")}
-                  className={`block w-full rounded-lg border-gray-200 px-4 py-4 ps-14 text-gray-800 shadow-sm focus:z-10 focus:border-primary-400 focus:ring-primary-400 ${formik.touched.first_name && formik.errors.first_name ? "border-red-500 ring-1 ring-red-500" : ""}`}
+                  className={`auth-input ${formik.touched.first_name && formik.errors.first_name ? "border-red-500 ring-1 ring-red-500" : ""}`}
                   placeholder="Enter your First name"
                 />
                 <div className="pointer-events-none absolute inset-y-0 start-0 z-20 flex items-center gap-3 ps-4">
@@ -96,7 +98,7 @@ export default function SignUpForm() {
                     />
                   </svg>
 
-                  <div className="h-6 w-px bg-gray-300 focus:bg-primary-500" />
+                  <div className="h-6 w-px bg-gray-300" />
                 </div>
               </div>
               {formik.touched.first_name && formik.errors.first_name ? (
@@ -107,7 +109,7 @@ export default function SignUpForm() {
             </fieldset>
 
             {/* Lastname */}
-            <fieldset className="">
+            <fieldset className="w-full">
               <label
                 htmlFor="last_name"
                 className="sr-only mb-2 block text-sm font-medium"
@@ -119,7 +121,7 @@ export default function SignUpForm() {
                   type="text"
                   id="last_name"
                   {...formik.getFieldProps("last_name")}
-                  className={`block w-full rounded-lg border-gray-200 px-4 py-4 ps-14 text-gray-800 shadow-sm focus:z-10 focus:border-primary-400 focus:ring-primary-400 ${formik.touched.last_name && formik.errors.last_name ? "border-red-500 ring-1 ring-red-500" : ""}`}
+                  className={`auth-input ${formik.touched.last_name && formik.errors.last_name ? "border-red-500 ring-1 ring-red-500" : ""}`}
                   placeholder="Enter your Last name"
                 />
                 <div className="pointer-events-none absolute inset-y-0 start-0 z-20 flex items-center gap-3 ps-4">
@@ -137,7 +139,7 @@ export default function SignUpForm() {
                       d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
                     />
                   </svg>
-                  <div className="h-6 w-px bg-gray-300 focus:bg-primary-500" />
+                  <div className="h-6 w-px bg-gray-300" />
                 </div>
               </div>
               {formik.touched.last_name && formik.errors.last_name ? (
@@ -161,7 +163,7 @@ export default function SignUpForm() {
                 type="email"
                 id="email"
                 {...formik.getFieldProps("email")}
-                className={`block w-full rounded-lg border-gray-200 px-4 py-4 ps-14 text-gray-800 shadow-sm focus:z-10 focus:border-primary-400 focus:ring-primary-400 ${formik.touched.email && formik.errors.email ? "border-red-500 ring-1 ring-red-500" : ""}`}
+                className={`auth-input ${formik.touched.email && formik.errors.email ? "border-red-500 ring-1 ring-red-500" : ""}`}
                 placeholder="Enter your Email"
               />
               <div className="pointer-events-none absolute inset-y-0 start-0 z-20 flex items-center gap-3 ps-4">
@@ -180,7 +182,7 @@ export default function SignUpForm() {
                   <rect width="20" height="16" x="2" y="4" rx="2" />
                   <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                 </svg>
-                <div className="h-6 w-px bg-gray-300 focus:bg-primary-500" />
+                <div className="h-6 w-px bg-gray-300" />
               </div>
             </div>
             {formik.touched.email && formik.errors.email ? (
@@ -203,7 +205,7 @@ export default function SignUpForm() {
                 type={showPassword ? "text" : "password"}
                 id="password"
                 {...formik.getFieldProps("password")}
-                className={`block w-full rounded-lg border-gray-200 px-4 py-4 ps-14 text-gray-800 shadow-sm focus:z-10 focus:border-primary-400 focus:ring-primary-400 ${formik.touched.password && formik.errors.password ? "border-red-500 ring-1 ring-red-500" : ""}`}
+                className={`auth-input ${formik.touched.password && formik.errors.password ? "border-red-500 ring-1 ring-red-500" : ""}`}
                 placeholder="Enter your Password"
               />
               <div className="pointer-events-none absolute inset-y-0 start-0 z-20 flex items-center gap-3 ps-4">
@@ -222,7 +224,7 @@ export default function SignUpForm() {
                   />
                 </svg>
 
-                <div className="h-6 w-px bg-gray-300 focus:bg-primary-500" />
+                <div className="h-6 w-px bg-gray-300" />
               </div>
 
               <div className="absolute inset-y-0 end-0 z-20 flex items-center pe-4">
@@ -253,7 +255,7 @@ export default function SignUpForm() {
                 type={showConfirmPassword ? "text" : "password"}
                 id="password2"
                 {...formik.getFieldProps("password2")}
-                className={`block w-full rounded-lg border-gray-200 px-4 py-4 ps-14 text-gray-800 shadow-sm focus:z-10 focus:border-primary-400 focus:ring-primary-400 ${formik.touched.password2 && formik.errors.password2 ? "border-red-500 ring-1 ring-red-500" : ""}`}
+                className={`auth-input ${formik.touched.password2 && formik.errors.password2 ? "border-red-500 ring-1 ring-red-500" : ""}`}
                 placeholder="Confirm Password"
               />
               <div className="pointer-events-none absolute inset-y-0 start-0 z-20 flex items-center gap-3 ps-4">
@@ -272,7 +274,7 @@ export default function SignUpForm() {
                   />
                 </svg>
 
-                <div className="h-6 w-px bg-gray-300 focus:bg-primary-500" />
+                <div className="h-6 w-px bg-gray-300" />
               </div>
 
               <div className="absolute inset-y-0 end-0 z-20 flex items-center pe-4">
@@ -302,7 +304,7 @@ export default function SignUpForm() {
                 />
               </div>
               <div className="ms-3">
-                <label htmlFor="accepted_terms" className="text-sm">
+                <label htmlFor="accepted_terms" className="text-xs sm:text-sm">
                   I accept the <TermsOfUseModal />
                   and <PrivacyPolicyModal />
                 </label>
@@ -325,7 +327,7 @@ export default function SignUpForm() {
             rightSection={<IconArrowRight />}
             leftSection={<span />}
             classNames={{
-              label: "text-base font-medium",
+              label: "text-sm sm:text-base font-medium",
             }}
             loading={formik.isSubmitting}
             loaderProps={{ type: "dots" }}
@@ -333,7 +335,7 @@ export default function SignUpForm() {
             Sign Up
           </Button>
 
-          <p className="mt-4 flex justify-center gap-2 text-center text-gray-800 sm:mt-0">
+          <p className="mt-4 flex justify-center gap-2 text-center text-sm text-gray-800 sm:mt-0 sm:text-base">
             Already have an account?{" "}
             <Link
               href="/auth/login/"

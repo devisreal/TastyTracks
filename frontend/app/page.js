@@ -32,11 +32,19 @@ export default function Home() {
         </Button>
         <Button
           component={Link}
-          href="/auth/signup/"
+          href="/auth/customer/signup/"
           variant="filled"
           color="secondary"
         >
           SignUp
+        </Button>
+        <Button
+          component={Link}
+          href="auth/restaurant/signup"
+          variant="filled"
+          color="dark"
+        >
+          SignUp (Restaurant)
         </Button>
       </div>
     </main>

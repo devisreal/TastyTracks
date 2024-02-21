@@ -15,10 +15,7 @@ export const AuthProvider = ({ children }) => {
   // Login function
   const login = async (values, resetForm, setSubmitting) => {
     try {
-      const res = await axios.post(
-        "https://tasty-tracks.onrender.com/api/login/",
-        values,
-      );
+      const res = await axios.post("http://localhost:8000/api/login/", values);
       const response = res.data;
 
       if (res.status === 200) {
@@ -40,12 +37,30 @@ export const AuthProvider = ({ children }) => {
         toast.success("Login Successful");
       }
     } catch (error) {
-      console.error("Login Error:", error);
       // Handle login error (e.g., display error message)
-      toast.error("Login Failed");
+      toast.error(error.response.data.error);
     } finally {
       // Reset form after submission
       resetForm({ values: "" });
+    }
+  };
+
+  // Logout
+  const logout = async () => {
+    try {
+      const res = await api.post("/logout/", {
+        refresh_token: localStorage.getItem("refresh"),
+      });
+      if (res.status === 200) {
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+        localStorage.removeItem("user");
+        router.push("/auth/login");
+        toast.success("Logged out successfully!");
+      }
+    } catch (error) {
+      console.error("Logout Error:", error);
+      // Handle logout error (e.g., display error message)
     }
   };
 
@@ -54,7 +69,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const { first_name, last_name, email, password, password2 } = values;
       const res = await axios.post(
-        "https://tasty-tracks.onrender.com/api/create-customer/",
+        "http://localhost:8000/api/create-customer/",
         {
           user: {
             first_name,
@@ -80,15 +95,67 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Restaurant Sign Up
+  const signupRestaurant = async (values, resetForm, setSubmitting) => {
+    try {
+      const {
+        first_name,
+        last_name,
+        email,
+        password,
+        password2,
+        store_name,
+        brand_name,
+        description,
+        phone_number,
+        website,
+        address_line1,
+        address_line2,
+        postcode,
+        city,
+      } = values;
+      const res = await axios.post(
+        "http://localhost:8000/api/create-restaurant/",
+        {
+          user: {
+            first_name,
+            last_name,
+            email,
+            password,
+            password2,
+          },
+          store_name,
+          brand_name,
+          description,
+          phone_number,
+          website,
+          address_line1,
+          address_line2,
+          postcode,
+          city,
+        },
+      );
+      const response = res.data;
+      if (res.status === 201) {
+        setSubmitting(false);
+        router.push("/auth/verify-email/");
+        toast.success(response.message);
+      }
+    } catch (error) {
+      console.error("Restaurant Signup Error:", error);
+      // Handle signup error (e.g., display error message)
+      toast.error("Signup Failed");
+    } finally {
+      resetForm({ values: "" });
+    }
+  };
+
   //   Verify Email
   const verifyEmail = async (otp, setIsSubmitting) => {
     try {
-      const res = await axios.post(
-        "https://tasty-tracks.onrender.com/api/verify-email/",
-        {
-          otp: otp,
-        },
-      );
+      const res = await axios.post("http://localhost:8000/api/verify-email/", {
+        otp: otp,
+      });
       if (res.status === 200) {
         router.push("/auth/login");
         toast.success(res.data.message);
@@ -105,7 +172,7 @@ export const AuthProvider = ({ children }) => {
   const forgetPassword = async (email, setSubmitting, resetForm) => {
     try {
       const res = await axios.post(
-        "https://tasty-tracks.onrender.com/api/password-reset/",
+        "http://localhost:8000/api/password-reset/",
         {
           email: email,
         },
@@ -146,7 +213,9 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         login,
+        logout,
         signupCustomer,
+        signupRestaurant,
         verifyEmail,
         forgetPassword,
         resetPassword,

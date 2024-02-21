@@ -2,9 +2,9 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Logo() {
+export default function Logo({ className }) {
   return (
-    <Link href="/">
+    <Link href="/" className={className}>
       <Image
         src="/images/logo/coloured.webp"
         alt="Logo"

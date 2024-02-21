@@ -30,7 +30,7 @@ export default function AuthSegmentedControl() {
           value: "login",
           label: (
             <button
-              className="h-full w-full"
+              className="h-full w-full text-sm sm:text-base"
               onClick={() => {
                 router.push("/auth/login");
                 setValue("login");
@@ -44,7 +44,7 @@ export default function AuthSegmentedControl() {
           value: "signup",
           label: (
             <button
-              className="h-full w-full"
+              className="h-full w-full text-sm sm:text-base"
               onClick={() => {
                 router.push("/auth/customer/signup");
                 setValue("signup");

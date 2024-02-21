@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import api from "@/utils/api";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@mantine/core";
 
 const ISSERVER = typeof window === "undefined";
@@ -11,7 +12,7 @@ export default function ProfilePage() {
   const router = useRouter();
   const user = !ISSERVER ? JSON.parse(localStorage.getItem("user")) : "";
   const jwt_access = !ISSERVER ? localStorage.getItem("access") : "";
-  const jwt_refresh = !ISSERVER ? localStorage.getItem("refresh") : "";
+  const { logout } = useAuth();
 
   useEffect(() => {
     if (jwt_access === null && !user) {
@@ -29,17 +30,11 @@ export default function ProfilePage() {
   };
 
   const handleLogout = async () => {
-    const res = await api.post("/logout/", {
-      refresh_token: jwt_refresh,
-    });
-    if (res.status === 200) {
-      if (!ISSERVER) {
-        localStorage.removeItem("access");
-        localStorage.removeItem("refresh");
-        localStorage.removeItem("user");
-      }
-      router.push("/auth/login");
-      toast.success("Logged out successfully!");
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Logout Error:", error);
+      // Handle logout error (e.g., display error message)
     }
   };
 

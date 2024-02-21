@@ -70,9 +70,9 @@ export default function RootLayout({ children }) {
             toastOptions={{
               className: "font-geist",
               classNames: {
-                toast: "text-md font-bold",
-                title: "text-md font-bold",
-                description: "text-md font-bold",
+                toast: "text-sm sm:text-md font-bold",
+                title: "text-sm sm:text-md font-bold",
+                description: "text-sm sm:text-md font-bold",
               },
             }}
             style={{

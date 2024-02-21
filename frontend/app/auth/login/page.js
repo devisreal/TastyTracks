@@ -2,6 +2,11 @@ import AuthSegmentedControl from "@/components/auth-segmented-control/AuthSegmen
 import Logo from "@/components/Logo";
 import LoginForm from "@/components/auth-forms/LoginForm";
 
+export const metadata = {
+  title: "Login | Tasty Tracks",
+  description: "...",
+};
+
 export default function LoginPage() {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-y-10">
@@ -9,7 +14,7 @@ export default function LoginPage() {
 
       <div className="text-center">
         <h1 className="font-clash text-3xl font-semibold sm:text-4xl">Login</h1>
-        <p className="font-geist text-neutral-600 max-md:max-w-full">
+        <p className="font-geist text-sm text-neutral-600 max-md:max-w-full sm:text-base">
           Welcome back! Please log in to access your account.
         </p>
       </div>
@@ -20,7 +25,7 @@ export default function LoginPage() {
 
       <LoginForm />
 
-      <p className="max-w-2xl text-center">
+      <p className="max-w-2xl text-center text-sm sm:text-base">
         Welcome back! Please log in to access your account. If you don&apos;t
         have an account yet, you can create one by clicking on the &lsquo;Sign
         Up&rsquo; button below. We take your privacy seriously and will never

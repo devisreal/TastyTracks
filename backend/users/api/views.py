@@ -38,15 +38,13 @@ class CreateRestaurantView(APIView):
         if serializer.is_valid():
             restaurant = serializer.save()
             send_verification_otp(restaurant.user.email)
-
-            data["response"] = "Registration Successful!"
+            data["response"] = "Successfully created restaurant"
             data["username"] = restaurant.user.username
             data["email"] = restaurant.user.email
-            data["slug"] = restaurant.user.slug
-            data["first_name"] = restaurant.user.first_name
-            data["last_name"] = restaurant.user.last_name
-            data["name"] = restaurant.name
-            data["is_owner"] = restaurant.user.is_owner
+            data["full_name"] = (
+                f"{restaurant.user.first_name} {restaurant.user.last_name}"
+            )
+            data["store_name"] = restaurant.store_name
 
             # refresh = RefreshToken.for_user(restaurant.user)
             # data["token"] = {

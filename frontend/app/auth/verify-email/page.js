@@ -2,6 +2,11 @@ import React from "react";
 import Logo from "@/components/Logo";
 import VerifyEmailForm from "@/components/auth-forms/VerifyEmailForm";
 
+export const metadata = {
+  title: "Verify Email | Tasty Tracks",
+  description: "...",
+};
+
 export default function VerifyEmailPage() {
   return (
     <div className="flex h-[100dvw] flex-col items-center justify-center gap-y-6 sm:h-full">

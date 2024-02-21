@@ -4,3 +4,12 @@
 @layer tailwind {
   @tailwind base;
 }
+
+
+.auth-input {
+  @apply block w-full text-sm sm:text-base rounded-lg border-gray-200 px-4 py-4 ps-14 text-gray-800 shadow-sm focus:z-10 focus:border-primary-400 focus:ring-primary-400;
+}
+
+.auth-textarea {
+  @apply block w-full rounded-lg border-gray-200 px-4 py-3 ps-14 text-sm text-gray-800 shadow-sm focus:z-10 focus:border-primary-500 focus:ring-primary-500 sm:text-base;
+}

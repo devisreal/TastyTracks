@@ -71,26 +71,38 @@ class UserLoginSerializer(serializers.Serializer):
         password = attrs.get("password")
 
         if email and password:
+            # Check if a user with the given email exists
+            try:
+                user = User.objects.get(email=email)
+            except User.DoesNotExist:
+                raise serializers.ValidationError(
+                    {"error": "No user found with this email."}
+                )
+
+            # Check if the provided password matches the user's password
+            if user and not user.check_password(password):
+                raise serializers.ValidationError(
+                    {"error": "Invalid email/password combination."}
+                )
+
+            # Check if the user is verified
+            if user and not user.is_verified:
+                raise serializers.ValidationError(
+                    {"error": "Account not verified. Please verify your email."}
+                )
+
             user = authenticate(email=email, password=password)
-            if user:
-                username = User.objects.get(email=email).username
-                if user.is_verified:
-                    refresh = RefreshToken.for_user(user)
-                    return {
-                        "email": email,
-                        "username": username,
-                        "full_name": f"{user.first_name} {user.last_name}",
-                        "tokens": {
-                            "refresh": str(refresh),
-                            "access": str(refresh.access_token),
-                        },
-                    }
-                else:
-                    raise serializers.ValidationError(
-                        {"error": "Account not verified. Please verify your email."}
-                    )
-            else:
-                raise serializers.ValidationError("Invalid email/password combination.")
+            if user and user.is_verified:
+                refresh = RefreshToken.for_user(user)
+                return {
+                    "email": email,
+                    "username": user.username,
+                    "full_name": f"{user.first_name} {user.last_name}",
+                    "tokens": {
+                        "refresh": str(refresh),
+                        "access": str(refresh.access_token),
+                    },
+                }
         else:
             raise serializers.ValidationError("Both email and password are required.")
 
@@ -141,19 +153,32 @@ class CreateRestaurantSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Restaurant
-        fields = ["user", "name", "description", "phone_number"]
+        fields = [
+            "user",
+            "store_name",
+            "brand_name",
+            "description",
+            "phone_number",
+            "website",
+            "address_line1",
+            "address_line2",
+            "postcode",
+            "city",
+        ]
 
     def validate(self, attrs):
-        if not attrs.get("name"):
-            raise serializers.ValidationError({"name": "Brand Name is required"})
+        if not attrs.get("store_name"):
+            raise serializers.ValidationError({"store_name": "Store name is required"})
+        if not attrs.get("brand_name"):
+            raise serializers.ValidationError({"brand_name": "Brand name is required"})
         return attrs
 
     def create(self, validated_data):
         user_data = validated_data.pop("user")
 
         # Generate username from the restaurant's name
-        name = validated_data.get("name")
-        base_username = f"{name.lower().replace(' ', '_')}"
+        store_name = validated_data.get("store_name")
+        base_username = f"{store_name.lower().replace(' ', '_')}"
 
         # Ensure the username is unique
         username = base_username

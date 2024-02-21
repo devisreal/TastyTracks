@@ -24,7 +24,9 @@ export default function ForgotPasswordForm() {
         email: "",
       }}
       validationSchema={Yup.object({
-        email: Yup.string().email("Invalid email address").required("Required"),
+        email: Yup.string()
+          .email("Invalid email address")
+          .required("Please enter a valid email address"),
       })}
       onSubmit={handleSubmit}
     >
@@ -45,7 +47,7 @@ export default function ForgotPasswordForm() {
                 type="email"
                 id="email"
                 {...formik.getFieldProps("email")}
-                className={`block w-full rounded-lg border-gray-200 px-4 py-4 ps-14 text-gray-800 shadow-sm focus:z-10 focus:border-primary-400 focus:ring-primary-400 ${formik.touched.email && formik.errors.email ? "border-red-500 ring-1 ring-red-500" : ""}`}
+                className={`auth-input ${formik.touched.email && formik.errors.email ? "border-red-500 ring-1 ring-red-500" : ""}`}
                 placeholder="Enter your Email"
               />
               <div className="pointer-events-none absolute inset-y-0 start-0 z-20 flex items-center gap-3 ps-4">
@@ -64,7 +66,7 @@ export default function ForgotPasswordForm() {
                   <rect width="20" height="16" x="2" y="4" rx="2" />
                   <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                 </svg>
-                <div className="h-6 w-px bg-gray-300 focus:bg-primary-500" />
+                <div className="h-6 w-px bg-gray-300" />
               </div>
             </div>
             {formik.touched.email && formik.errors.email ? (
@@ -84,7 +86,7 @@ export default function ForgotPasswordForm() {
             rightSection={<IconArrowRight />}
             leftSection={<span />}
             classNames={{
-              label: "text-base font-medium",
+              label: "text-sm sm:text-base font-medium",
             }}
             loading={formik.isSubmitting}
             loaderProps={{ type: "dots" }}
@@ -92,7 +94,7 @@ export default function ForgotPasswordForm() {
             Submit
           </Button>
 
-          <p className="mt-4 flex justify-center gap-2 text-center text-gray-800 sm:mt-0">
+          <p className="mt-4 flex justify-center gap-2 text-center text-sm text-gray-800 sm:mt-0 sm:text-base">
             Already have an account?{" "}
             <Link
               href="/auth/login/"

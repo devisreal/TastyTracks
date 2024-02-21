@@ -8,7 +8,7 @@ import { useAuth } from "@/contexts/AuthContext";
 export default function VerifyEmailForm() {
   const [otp, setOtp] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { verifyEmail } = useAuth();  
+  const { verifyEmail } = useAuth();
 
   const handleChange = (value) => {
     setOtp(value);
@@ -65,7 +65,7 @@ export default function VerifyEmailForm() {
         rightSection={<IconArrowRight />}
         leftSection={<span />}
         classNames={{
-          label: "text-base font-medium",
+          label: "text-sm sm:text-base font-medium",
         }}
         loading={isSubmitting}
         loaderProps={{ type: "dots" }}
