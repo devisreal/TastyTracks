@@ -1,28 +1,24 @@
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
-import "./globals.css";
+import "../globals.css";
 import "@mantine/core/styles.css";
 import "@mantine/carousel/styles.css";
-
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import { GeistSans } from "geist/font/sans";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/contexts/AuthContext";
 
-
 const inter = Inter({ subsets: ["latin"] });
 const clash_grotesk = localFont({
-  src: "../public/fonts/ClashGrotesk-Variable.woff2",
+  src: "../../public/fonts/ClashGrotesk-Variable.woff2",
   display: "swap",
   variable: "--font-clash",
 });
 
-export const metadata = {
-  title: "Tasty Tracks",
-  description: "Tasty Tracks web app",
-};
+import Navbar from "@/components/navbar/navbar";
+import Footer from "@/components/footer/footer";
 
-export default function RootLayout({ children }) {
+export default function OthersLayout({ children }) {
   return (
     <html lang="en">
       <head>

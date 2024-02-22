@@ -1,27 +1,17 @@
-"use client";
-import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+'use client'
 import api from "@/utils/api";
-import { toast } from "sonner";
+import withAuth from "@/components/withAuth";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@mantine/core";
 
 const ISSERVER = typeof window === "undefined";
 
-export default function ProfilePage() {
-  const router = useRouter();
+const ProfilePage = () => {  
   const user = !ISSERVER ? JSON.parse(localStorage.getItem("user")) : "";
   const jwt_access = !ISSERVER ? localStorage.getItem("access") : "";
-  const { logout } = useAuth();
+  const { logout, isAuthenticated } = useAuth();
 
-  useEffect(() => {
-    if (jwt_access === null && !user) {
-      router.push("/auth/login");
-    } else {
-      getSomeData();
-    }
-  }, [jwt_access, user, router]);
-
+  
   const getSomeData = async () => {
     const res = await api.get("/test-auth/");
     if (res.status === 200) {
@@ -96,4 +86,6 @@ export default function ProfilePage() {
       </div>
     </div>
   );
-}
+};
+
+export default withAuth(ProfilePage);

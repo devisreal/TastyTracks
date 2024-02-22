@@ -7,18 +7,36 @@ import { toast } from "sonner";
 
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
+export default AuthContext;
+
+const ISSERVER = typeof window === "undefined";
+let access_token;
+let refresh_token;
+if (typeof window !== "undefined") {
+  access_token = localStorage.getItem("access") || null;
+  refresh_token = localStorage.getItem("refresh") || null;
+}
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    if (typeof window !== "undefined") {
+      return JSON.parse(localStorage.getItem("user")) || null;
+    }
+    return null;
+  });
+
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    if (typeof window !== "undefined") {
+      const authData = localStorage.getItem("isAuthenticated");
+      return authData !== null ? authData : false;
+    }
+  });
   const router = useRouter();
 
   // Login function
   const login = async (values, resetForm, setSubmitting) => {
     try {
-      const res = await axios.post(
-        "https://tasty-tracks.onrender.com/api/login/",
-        values,
-      );
+      const res = await axios.post("http://localhost:8000/api/login/", values);
       const response = res.data;
 
       if (res.status === 200) {
@@ -29,12 +47,14 @@ export const AuthProvider = ({ children }) => {
         };
 
         // Store user data and tokens in local storage
+        setUser(user);
+        setIsAuthenticated(true);
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("access", response.tokens.access);
         localStorage.setItem("refresh", response.tokens.refresh);
+        localStorage.setItem("isAuthenticated", true);
 
         // Update state and navigate to profile page
-        setUser(user);
         setSubmitting(false);
         router.push("/users/profile");
         toast.success("Login Successful");
@@ -55,9 +75,11 @@ export const AuthProvider = ({ children }) => {
         refresh_token: localStorage.getItem("refresh"),
       });
       if (res.status === 200) {
+        setIsAuthenticated(true);
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
         localStorage.removeItem("user");
+        localStorage.setItem("isAuthenticated", false);
         router.push("/auth/login");
         toast.success("Logged out successfully!");
       }
@@ -72,7 +94,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const { first_name, last_name, email, password, password2 } = values;
       const res = await axios.post(
-        "https://tasty-tracks.onrender.com/api/create-customer/",
+        "http://localhost:8000/api/create-customer/",
         {
           user: {
             first_name,
@@ -118,7 +140,7 @@ export const AuthProvider = ({ children }) => {
         city,
       } = values;
       const res = await axios.post(
-        "https://tasty-tracks.onrender.com/api/create-restaurant/",
+        "http://localhost:8000/api/create-restaurant/",
         {
           user: {
             first_name,
@@ -156,12 +178,9 @@ export const AuthProvider = ({ children }) => {
   //   Verify Email
   const verifyEmail = async (otp, setIsSubmitting) => {
     try {
-      const res = await axios.post(
-        "https://tasty-tracks.onrender.com/api/verify-email/",
-        {
-          otp: otp,
-        },
-      );
+      const res = await axios.post("http://localhost:8000/api/verify-email/", {
+        otp: otp,
+      });
       if (res.status === 200) {
         router.push("/auth/login");
         toast.success(res.data.message);
@@ -178,7 +197,7 @@ export const AuthProvider = ({ children }) => {
   const forgetPassword = async (email, setSubmitting, resetForm) => {
     try {
       const res = await axios.post(
-        "https://tasty-tracks.onrender.com/api/password-reset/",
+        "http://localhost:8000/api/password-reset/",
         {
           email: email,
         },
@@ -225,6 +244,7 @@ export const AuthProvider = ({ children }) => {
         verifyEmail,
         forgetPassword,
         resetPassword,
+        isAuthenticated,
       }}
     >
       {children}
