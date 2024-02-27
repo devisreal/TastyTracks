@@ -10,7 +10,7 @@ export const metadata = {
 export default function CustomerSignUpPage() {
   return (
     <div className="flex h-full flex-col items-center justify-center gap-y-8">
-      <Logo />
+      <Logo IconColoured />
 
       <div className=" text-center">
         <h1 className="font-clash text-3xl font-semibold sm:text-4xl">

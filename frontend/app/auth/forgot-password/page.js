@@ -10,7 +10,7 @@ export const metadata = {
 export default function ForgotPasswordPage() {
   return (
     <div className="flex h-[100dvw] flex-col items-center justify-center gap-y-6 sm:h-full">
-      <Logo />
+      <Logo IconColoured />
 
       <div className="text-center">
         <h1 className="font-clash text-3xl font-semibold sm:text-4xl">

@@ -1,0 +1,26 @@
+.header_sticky {
+    transition: height 0.3s ease-in;
+    z-index: 99;
+}
+
+.header_sticky.sticky {
+    -webkit-animation: headerSticky 0.5s ease forwards;
+    animation: headerSticky 0.5s ease forwards;
+    /* backdrop-filter: blur(3px);     */
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+@keyframes headerSticky {
+    0% {
+        -webkit-transform: translateY(-100%);
+        transform: translateY(-100%);
+    }
+
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
