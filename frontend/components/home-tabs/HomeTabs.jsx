@@ -53,14 +53,14 @@ const tabs = [
 ];
 
 export default function HomeTabs() {
-  const matches = useMediaQuery("(min-width: 768px)");
+  const matches = useMediaQuery("(max-width: 768px)");
   const matchesTabList = useMediaQuery("(min-width: 768px)");
 
   return (
     <Tabs
       defaultValue="sushi"
       variant="pills"
-      orientation={matches ? "vertical" : "horizontal"}
+      orientation={matches ? "horizontal" : "vertical"}
       className="mx-auto my-20 flex max-w-screen-lg  gap-6 p-4 lg:p-0"
       classNames={classes}
     >

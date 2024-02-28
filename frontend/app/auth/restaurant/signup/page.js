@@ -9,7 +9,7 @@ export const metadata = {
 export default function RestaurantSignUpPage() {
   return (
     <div className="flex h-full flex-col justify-center  py-1 sm:gap-y-4">
-      <Logo className={"sm:mx-auto"} />
+      <Logo IconColoured className={"sm:mx-auto"} />
 
       <div className="sm:text-center">
         <h1 className="font-clash text-3xl font-semibold sm:text-4xl">

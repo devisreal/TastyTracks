@@ -1,16 +1,17 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMediaQuery } from "@mantine/hooks";
 
 export default function Logo({
-  className,
-  fullWhite,
-  fullColoured,
-  fullBlack,
-  IconWhite,
-  IconColoured,
-  IconBlack,
+  className = "",
+  fullWhite = false,
+  fullColoured = false,
+  fullBlack = false,
+  IconWhite = false,
+  IconColoured = false,
+  IconBlack = false,
 }) {
   const matches = useMediaQuery("(min-width: 576px)");
   return (

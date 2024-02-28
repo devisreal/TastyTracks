@@ -63,11 +63,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* <div className="flex gap-x-3 font-geist">
-        <Link href="/auth/login">Login</Link>
-        <Link href="/auth/customer/signup">Signup</Link>
-        <Link href="/auth/restaurant/signup">Signup(Restaurant)</Link>
-      </div> */}
+      
 
       <br />
       <br />
@@ -180,6 +176,12 @@ export default function Home() {
       <br />
       <br />
       <br />
+
+      <div className="flex gap-x-3 font-geist">
+        <Link href="/auth/login">Login</Link>
+        <Link href="/auth/customer/signup">Signup</Link>
+        <Link href="/auth/restaurant/signup">Signup(Restaurant)</Link>
+      </div>
     </div>
   );
 }
