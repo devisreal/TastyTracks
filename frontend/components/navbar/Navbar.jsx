@@ -22,7 +22,7 @@ export default function Navbar({ instantFixed }) {
     <nav
       className={`w-full ${instantFixed ? "fixed" : ""} ${styles.header_sticky}  ${
         colorChange
-          ? `${styles.sticky} supports-backdrop-blur:bg-white/80 border-b border-gray-200 bg-white py-1 shadow backdrop-blur-sm backdrop-saturate-200`
+          ? `${styles.sticky} border-b border-gray-200 bg-white shadow`
           : "bg-transparent py-1"
       }`}
     >

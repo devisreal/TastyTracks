@@ -3,6 +3,7 @@ import Navbar from "@/components/navbar/Navbar";
 import Image from "next/image";
 import Link from "next/link";
 import HomeTabs from "@/components/home-tabs/HomeTabs";
+import TestimonialCarousel from "@/components/testimonial-carousel/Carousel";
 
 export default function Home() {
   return (
@@ -63,21 +64,46 @@ export default function Home() {
         </div>
       </section>
 
-      
-
-      <br />
-      <br />
-      <br />
-
-      <section className="mx-auto mt-[10rem] max-w-[85rem]">
-        <h3 className="my-4 text-center font-clash text-3xl font-semibold sm:text-4xl leading-none">
+      <section className="mx-auto mt-[14rem] max-w-[85rem]">
+        <h3 className="my-4 px-3 text-center font-clash text-3xl font-semibold leading-none sm:px-0 sm:text-4xl">
           Menu That Always Makes You Fall In Love
         </h3>
-        <p className="text-center text-gray-600 font-geist text-base md:text-lg">
+        <p className="text-center font-geist text-base text-gray-600 md:text-lg">
           Discover a world of delectable treats on our platform.
         </p>
         <HomeTabs />
       </section>
+
+      <div className="bg-primary-100/60 py-16 mt-[14rem]">
+        <section className="mx-auto  max-w-[85rem] overflow-hidden">
+          <h3 className="my-4 px-3 text-center font-clash text-3xl font-semibold leading-none sm:px-0 sm:text-4xl">
+            What Our Customers Say About Us
+          </h3>
+          <p className="text-center font-geist text-base text-gray-600 md:text-lg">
+            Read what our happy customers have to say about us.
+          </p>
+
+          <div className="mt-28 grid grid-cols-1 gap-4 lg:grid-cols-2 xl:gap-8 ">
+            <div className="">
+              <div className="relative mx-auto w-[360px]">
+                <div className="mx-auto rounded-2xl bg-primary-400/70 lg:absolute">
+                  <Image
+                    src="/images/testimonial.webp"
+                    width={360}
+                    height={540}
+                    alr="Testimonial Image"
+                    className="-mt-16"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex h-[30rem] items-center ">
+              <TestimonialCarousel />
+            </div>
+          </div>
+        </section>
+      </div>
 
       <br />
       <br />

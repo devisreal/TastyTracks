@@ -61,7 +61,7 @@ export default function HomeTabs() {
       defaultValue="sushi"
       variant="pills"
       orientation={matches ? "horizontal" : "vertical"}
-      className="mx-auto my-20 flex max-w-screen-lg  gap-6 p-4 lg:p-0"
+      className="mx-auto my-20 flex max-w-screen-xl xl:max-w-screen-lg gap-4 xl:gap-6 p-4 lg:p-0 lg:px-6"
       classNames={classes}
     >
       <Tabs.List
@@ -87,7 +87,7 @@ export default function HomeTabs() {
         <Tabs.Panel
           key={index}
           value={tab.value}
-          className="flex flex-col gap-6 p-4 sm:flex-row md:flex-col lg:flex-row"
+          className="flex flex-col gap-6 p-4 sm:flex-row md:flex-col xl:flex-row"
         >
           {tab.images.map((image, index) => (
             <Paper
@@ -95,7 +95,7 @@ export default function HomeTabs() {
               shadow="md"
               p="xl"
               radius="md"
-              className={`${classes.card} mx-auto w-96`}
+              className={`${classes.card} mx-auto w-80 xs:w-96`}
               style={{
                 backgroundImage: `url(${image})`,
               }}
