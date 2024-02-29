@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start -p 8080",
     "lint": "next lint",
-    "format": "prettier --write \"components/**/*.{js,jsx,tsx, css, html}\""
+    "format": "prettier --write \"app/**/*.{js,jsx,tsx, css, html}\""
   },
   "dependencies": {
     "@mantine/carousel": "^7.4.1",

@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { Button } from "@mantine/core";
 
 export default function NotFound() {
   return (
     <main class="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
       <div class="text-center">
-        <p class="text-base font-semibold text-primary-600 font-clash sm:text-lg">404</p>
+        <p class="font-clash text-base font-semibold text-primary-600 sm:text-lg">
+          404
+        </p>
         <h1 class="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-5xl ">
           Page not found
         </h1>
@@ -20,7 +21,10 @@ export default function NotFound() {
             Go back home
           </Link>
           <Link href="/contact" class="text-sm font-semibold text-gray-900">
-            Contact support <span aria-hidden="true" className="ml-1">&rarr;</span>
+            Contact support{" "}
+            <span aria-hidden="true" className="ml-1">
+              &rarr;
+            </span>
           </Link>
         </div>
       </div>

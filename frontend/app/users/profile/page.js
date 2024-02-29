@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import api from "@/utils/api";
 import withAuth from "@/components/withAuth";
 import { useAuth } from "@/contexts/AuthContext";
@@ -6,12 +6,11 @@ import { Button } from "@mantine/core";
 
 const ISSERVER = typeof window === "undefined";
 
-const ProfilePage = () => {  
+const ProfilePage = () => {
   const user = !ISSERVER ? JSON.parse(localStorage.getItem("user")) : "";
   const jwt_access = !ISSERVER ? localStorage.getItem("access") : "";
   const { logout, isAuthenticated } = useAuth();
 
-  
   const getSomeData = async () => {
     const res = await api.get("/test-auth/");
     if (res.status === 200) {

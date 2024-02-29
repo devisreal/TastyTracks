@@ -6,7 +6,7 @@ export default function OthersLayout({ children }) {
     <>
       <Navbar instantFixed />
       {children}
-      <Footer />{" "}
+      <Footer />
     </>
   );
 }

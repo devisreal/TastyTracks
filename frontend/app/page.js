@@ -1,13 +1,15 @@
 import Header from "@/components/header/Header";
+import { Button } from "@mantine/core";
 import Navbar from "@/components/navbar/Navbar";
 import Image from "next/image";
 import Link from "next/link";
 import HomeTabs from "@/components/home-tabs/HomeTabs";
 import TestimonialCarousel from "@/components/testimonial-carousel/Carousel";
+import Footer from "@/components/footer/footer";
 
 export default function Home() {
   return (
-    <div className="">
+    <>
       <Navbar instantFixed />
       <Header />
 
@@ -74,8 +76,8 @@ export default function Home() {
         <HomeTabs />
       </section>
 
-      <div className="bg-primary-100/60 py-16 mt-[14rem]">
-        <section className="mx-auto  max-w-[85rem] overflow-hidden">
+      <section className="my-[14rem] bg-primary-100/60 py-16">
+        <div className="mx-auto  max-w-[85rem] overflow-hidden">
           <h3 className="my-4 px-3 text-center font-clash text-3xl font-semibold leading-none sm:px-0 sm:text-4xl">
             What Our Customers Say About Us
           </h3>
@@ -102,112 +104,59 @@ export default function Home() {
               <TestimonialCarousel />
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+      <section className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="relative isolate overflow-hidden bg-primary-200/40 px-6 pt-16 shadow-xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
+          <div className="mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-40 lg:text-left">
+            <h2 className="font-clash text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+              Get Started With Us Today!
+            </h2>
+            <p className="mt-4 font-geist text-lg leading-8 text-gray-700">
+              Discover food wherever and whenever and get your food delivered
+              quickly.
+            </p>
+            <div className="mt-6 flex items-center justify-center gap-x-6 lg:justify-start">
+              <Button
+                color="primary"
+                size="md"
+                radius="md"
+                classNames={{
+                  label: "text-md font-geist font-medium",
+                }}
+                component={Link}
+                href="/auth/login"
+              >
+                Get started
+              </Button>
+              <Link
+                href="/about"
+                className="group inline-flex gap-x-1.5 font-geist text-sm font-semibold leading-6 text-gray-900 md:text-md"
+              >
+                Learn more{" "}
+                <div
+                  aria-hidden="true"
+                  className="transition group-hover:translate-x-0.5"
+                >
+                  →
+                </div>
+              </Link>
+            </div>
+          </div>
+          <div className="relative mt-16 h-96 sm:h-96 lg:my-8 ">
+            <img
+              className="left-0 top-0 mx-auto max-w-[24rem] rounded-md sm:w-[30rem] lg:absolute  lg:max-w-none"
+              src="/images/illustration3.png"
+              alt="App screenshot"
+              width={1824}
+              height={1080}
+            />
+          </div>
+        </div>
+      </section>
 
-      <div className="flex gap-x-3 font-geist">
-        <Link href="/auth/login">Login</Link>
-        <Link href="/auth/customer/signup">Signup</Link>
-        <Link href="/auth/restaurant/signup">Signup(Restaurant)</Link>
-      </div>
-    </div>
+      <Footer />
+    </>
   );
 }

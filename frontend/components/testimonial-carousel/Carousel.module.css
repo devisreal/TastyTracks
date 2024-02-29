@@ -8,7 +8,7 @@
     width: rem(15px) !important;
     height: rem(4px);
     transition: width 250ms ease;
-    background-color: var(--mantine-color-primary-5) !important;
+    background-color: var(--mantine-color-primary-6) !important;
     position: relative;
     top: 30px;
   
@@ -23,7 +23,7 @@
 
 
 .control {
-    background-color: white;
+    background-color: white !important;
     @apply shadow shadow-gray-500;
 }
 

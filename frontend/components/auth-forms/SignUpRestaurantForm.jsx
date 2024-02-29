@@ -103,7 +103,7 @@ export default function SignUpRestaurantForm() {
           className="mx-auto w-full space-y-4 font-geist"
           onSubmit={formik.handleSubmit}
         >
-          <div className="mx-auto my-8 sm:my-10 max-w-screen-md">
+          <div className="mx-auto my-8 max-w-screen-md sm:my-10">
             <Stepper
               active={active}
               onStepClick={setActive}

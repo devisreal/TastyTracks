@@ -9,7 +9,6 @@ import { GeistSans } from "geist/font/sans";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/contexts/AuthContext";
 
-
 const inter = Inter({ subsets: ["latin"] });
 const clash_grotesk = localFont({
   src: "../public/fonts/ClashGrotesk-Variable.woff2",
@@ -63,9 +62,7 @@ export default function RootLayout({ children }) {
             },
           }}
         >
-          <AuthProvider>                      
-            {children}            
-          </AuthProvider>
+          <AuthProvider>{children}</AuthProvider>
           <Toaster
             richColors
             closeButton

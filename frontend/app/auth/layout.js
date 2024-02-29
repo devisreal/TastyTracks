@@ -21,10 +21,10 @@ export default function AuthLayout({ children }) {
         <div className="absolute right-0 top-0 p-4">
           <Button
             leftSection={<IconHome2 size={22} />}
-            component={Link}            
+            component={Link}
             variant="default"
             href="/"
-            className="font-light font-geist"
+            className="font-geist font-light"
           >
             Go Home
           </Button>

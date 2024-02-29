@@ -61,7 +61,7 @@ export default function HomeTabs() {
       defaultValue="sushi"
       variant="pills"
       orientation={matches ? "horizontal" : "vertical"}
-      className="mx-auto my-20 flex max-w-screen-xl xl:max-w-screen-lg gap-4 xl:gap-6 p-4 lg:p-0 lg:px-6"
+      className="mx-auto my-20 flex max-w-screen-xl gap-4 p-4 lg:p-0 lg:px-6 xl:max-w-screen-lg xl:gap-6"
       classNames={classes}
     >
       <Tabs.List

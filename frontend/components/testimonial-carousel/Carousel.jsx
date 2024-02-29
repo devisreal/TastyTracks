@@ -18,7 +18,7 @@ export default function TestimonialCarousel() {
         className="max-w-[24rem] px-4 xs:max-w-[30rem] md:px-6 lg:max-w-[32rem] xl:max-w-[36rem] "
         loop
         slideGap="lg"
-        controlsOffset="lg"
+        controlsOffset="xs"
         classNames={styles}
         controlSize={35}
         nextControlIcon={
