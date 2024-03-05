@@ -87,7 +87,7 @@ export default function Home() {
 
           <div className="mt-28 grid grid-cols-1 gap-4 lg:grid-cols-2 xl:gap-8 ">
             <div className="">
-              <div className="relative mx-auto w-[360px]">
+              <div className="relative mx-auto w-[320px] sm:w-[360px]">
                 <div className="mx-auto rounded-2xl bg-primary-400/70 lg:absolute">
                   <Image
                     src="/images/testimonial.webp"

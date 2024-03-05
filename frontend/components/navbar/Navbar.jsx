@@ -24,7 +24,7 @@ export default function Navbar({ instantFixed }) {
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
-  }, [isAuthenticated]);
+  }, []);
 
   useEffect(() => {
     const changeNavbarColor = () => {
@@ -245,9 +245,8 @@ export default function Navbar({ instantFixed }) {
                   </ul>
                 </nav>
               </div>
-              
 
-              
+              {!isLoading ? (
                 <div
                   className="flex items-center gap-4"
                   suppressHydrationWarning
@@ -290,7 +289,9 @@ export default function Navbar({ instantFixed }) {
                     <SideNav />
                   </div>
                 </div>
-              
+              ) : (
+                <Loader color="primary" type="dots" />
+              )}
             </div>
           </div>
         </nav>

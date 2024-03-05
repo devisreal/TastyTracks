@@ -87,7 +87,7 @@ export default function HomeTabs() {
         <Tabs.Panel
           key={index}
           value={tab.value}
-          className="flex flex-col gap-6 p-4 sm:flex-row md:flex-col xl:flex-row"
+          className="flex flex-col gap-6 sm:p-4 sm:flex-row md:flex-col xl:flex-row"
         >
           {tab.images.map((image, index) => (
             <Paper
@@ -95,7 +95,7 @@ export default function HomeTabs() {
               shadow="md"
               p="xl"
               radius="md"
-              className={`${classes.card} mx-auto w-80 xs:w-96`}
+              className={`${classes.card} mx-auto w-80 sm:w-96`}
               style={{
                 backgroundImage: `url(${image})`,
               }}

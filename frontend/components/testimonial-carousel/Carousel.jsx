@@ -15,7 +15,7 @@ export default function TestimonialCarousel() {
         withIndicators
         height="100%"
         style={{ flex: 1 }}
-        className="max-w-[24rem] px-4 xs:max-w-[30rem] md:px-6 lg:max-w-[32rem] xl:max-w-[36rem] "
+        className="max-w-[24rem] sm:max-w-[30rem] md:px-6 lg:max-w-[32rem] xl:max-w-[36rem] "
         loop
         slideGap="lg"
         controlsOffset="xs"

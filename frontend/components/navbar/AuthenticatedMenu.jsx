@@ -32,7 +32,7 @@ export default function AuthenticatedMenu() {
   if (user === null) return null
   return (
     <>
-      {isAuthenticated === true && (
+      {isAuthenticated && (
         <Menu
           shadow="md"
           width={220}

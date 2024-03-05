@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import api from "@/utils/api";
 import { useRouter, notFound } from "next/navigation";
 import axios from "axios";
@@ -28,19 +28,17 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     if (typeof window !== "undefined") {
       const authData = localStorage.getItem("isAuthenticated");
-      return authData !== null ? authData : false;
-    }
+      return authData !== null ? authData : false;      
+    }    
     return false;
   });
+  
   const router = useRouter();
 
   // Login function
   const login = async (values, resetForm, setSubmitting) => {
     try {
-      const res = await axios.post(
-        "https://tasty-tracks.onrender.com/api/login/",
-        values,
-      );
+      const res = await axios.post("http://localhost:8000/api/login/", values);
       const response = res.data;
 
       if (res.status === 200) {
@@ -49,7 +47,6 @@ export const AuthProvider = ({ children }) => {
           username: response.username,
           full_name: response.full_name,
           user_type: response.user_type,
-          initials: response.initials,
         };
 
         // Store user data and tokens in local storage
@@ -112,7 +109,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const { first_name, last_name, email, password, password2 } = values;
       const res = await axios.post(
-        "https://tasty-tracks.onrender.com/api/create-customer/",
+        "http://localhost:8000/api/create-customer/",
         {
           user: {
             first_name,
@@ -158,7 +155,7 @@ export const AuthProvider = ({ children }) => {
         city,
       } = values;
       const res = await axios.post(
-        "https://tasty-tracks.onrender.com/api/create-restaurant/",
+        "http://localhost:8000/api/create-restaurant/",
         {
           user: {
             first_name,
@@ -196,12 +193,9 @@ export const AuthProvider = ({ children }) => {
   //   Verify Email
   const verifyEmail = async (otp, setIsSubmitting) => {
     try {
-      const res = await axios.post(
-        "https://tasty-tracks.onrender.com/api/verify-email/",
-        {
-          otp: otp,
-        },
-      );
+      const res = await axios.post("http://localhost:8000/api/verify-email/", {
+        otp: otp,
+      });
       if (res.status === 200) {
         router.push("/auth/login");
         toast.success(res.data.message);
@@ -218,7 +212,7 @@ export const AuthProvider = ({ children }) => {
   const forgetPassword = async (email, setSubmitting, resetForm) => {
     try {
       const res = await axios.post(
-        "https://tasty-tracks.onrender.com/api/password-reset/",
+        "http://localhost:8000/api/password-reset/",
         {
           email: email,
         },

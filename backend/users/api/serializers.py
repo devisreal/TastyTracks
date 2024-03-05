@@ -95,11 +95,9 @@ class UserLoginSerializer(serializers.Serializer):
             if user and user.is_verified:
                 refresh = RefreshToken.for_user(user)
                 if user.is_customer:
-                    user_type = "customer"
-                    initials = user.customer.get_initials()
+                    user_type = "customer"                    
                 elif user.is_owner:
-                    user_type = "restaurant"
-                    initials = user.restaurant.get_initials()
+                    user_type = "restaurant"                    
                 elif user.is_staff:
                     user_type = "admin"
                 else:
@@ -108,8 +106,7 @@ class UserLoginSerializer(serializers.Serializer):
                     "email": email,
                     "username": user.username,
                     "full_name": f"{user.first_name} {user.last_name}",
-                    "user_type": user_type,
-                    "initials": initials,
+                    "user_type": user_type,                    
                     "tokens": {
                         "refresh": str(refresh),
                         "access": str(refresh.access_token),

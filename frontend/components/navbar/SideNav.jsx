@@ -24,12 +24,8 @@ export function SideNav({ instantFixed, colorChange }) {
         title=""
         className="font-darker_grotesque"
       >
-        <div className="space-y-6">
-          {/* <div className="flex w-fit">
-            <Drawer.CloseButton size={"lg"} className="hover:bg-gray-200" />
-          </div> */}
-
-          <ul className="flex flex-col gap-2 font-geist text-lg font-medium">
+        <div className="space-y-6">          
+          <ul className="flex flex-col gap-2 font-geist text-base md:text-lg font-medium">
             <li>
               <Link
                 href="/"
@@ -72,7 +68,7 @@ export function SideNav({ instantFixed, colorChange }) {
             </li>
           </ul>
 
-          {!isAuthenticated && (
+          {!isAuthenticated === false && (
             <div className="flex flex-col gap-y-3">
               <Button
                 variant="filled"
@@ -81,7 +77,7 @@ export function SideNav({ instantFixed, colorChange }) {
                 href="/auth/login"
                 size="lg"
                 classNames={{
-                  label: "font-medium font-geist text-lg px-2 py-2 rounded-md",
+                  label: "font-medium font-geist text-base md:text-lg px-2 py-2 rounded-md",
                 }}
               >
                 Login
@@ -94,7 +90,7 @@ export function SideNav({ instantFixed, colorChange }) {
                 href="/auth/customer/signup"
                 size="lg"
                 classNames={{
-                  label: "font-medium font-geist text-lg px-2 py-2 rounded-md",
+                  label: "font-medium font-geist text-base md:text-lg px-2 py-2 rounded-md",
                 }}
               >
                 Sign Up
