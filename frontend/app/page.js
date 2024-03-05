@@ -1,11 +1,11 @@
 import Header from "@/components/header/Header";
-import { Button } from "@mantine/core";
 import Navbar from "@/components/navbar/Navbar";
+import HomeTabs from "@/components/home-tabs/HomeTabs";
+import Footer from "@/components/footer/footer";
+import TestimonialCarousel from "@/components/testimonial-carousel/Carousel";
+import { Button } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
-import HomeTabs from "@/components/home-tabs/HomeTabs";
-import TestimonialCarousel from "@/components/testimonial-carousel/Carousel";
-import Footer from "@/components/footer/footer";
 
 export default function Home() {
   return (
@@ -93,7 +93,7 @@ export default function Home() {
                     src="/images/testimonial.webp"
                     width={360}
                     height={540}
-                    alr="Testimonial Image"
+                    alt="Testimonial Image"
                     className="-mt-16"
                   />
                 </div>

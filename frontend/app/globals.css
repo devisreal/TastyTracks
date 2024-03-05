@@ -13,3 +13,22 @@
 .auth-textarea {
   @apply block w-full rounded-lg border-gray-200 px-4 py-3 ps-14 text-sm text-gray-800 shadow-sm focus:z-10 focus:border-primary-500 focus:ring-primary-500 sm:text-base;
 }
+
+.active-link {
+  @apply underline decoration-2 underline-offset-4;
+}
+
+/* backgroundImage: `url(/images/menu_header.webp)`,
+             backgroundImage: `url(https://img.freepik.com/free-photo/homemade-tasty-sandwich-wooden-cutting-board-fries-left-side-blurred-surface_179666-42633.jpg?t=st=1709226560~exp=1709230160~hmac=da14807490db6d6f86dd69013db12ca3227bc1658b14ef1c82fb103fc88a45f8&w=1380)`,
+            backgroundImage: `url(https://img.freepik.com/free-photo/homemade-tasty-sandwich-wooden-cutting-board-fries-left-side-blurred-surface_179666-42633.jpg?t=st=1709226560~exp=1709230160~hmac=da14807490db6d6f86dd69013db12ca3227bc1658b14ef1c82fb103fc88a45f8&w=1380)`,
+            backgroundImage: `url(https://img.freepik.com/free-photo/front-view-burger-fries-plate_23-2148784444.jpg?t=st=1709226341~exp=1709229941~hmac=35a59f123eb27cfea713c1642a93d0de23f8e872f411e98fe7179c2b7a575135&w=1380)`,
+            backgroundImage: `url(https://img.freepik.com/free-photo/front-view-french-fries-with-seasonings-wooden-desk-potato-snack-lunch-meal_140725-95262.jpg?t=st=1709226816~exp=1709230416~hmac=e1f379236e81120c75f9b940cf0341e968028eae0098ff63c4feab4ec472fe61&w=1380)`,
+            backgroundImage: `url(https://img.freepik.com/free-photo/side-view-cook-making-delicious-pasta_23-2150690631.jpg?t=st=1709225540~exp=1709229140~hmac=3d8ea8eec8fea7bb4085cc159acb3c4bd9212a30a40449d60793c2475e6c35ff&w=1060)`, */
+
+.menu_header {
+  background-image:
+    linear-gradient(62deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url("https://res.cloudinary.com/ds4h5p2np/image/upload/q_auto:best/v1709231873/tasty_tracks/menu-header_bogi7m.webp");
+  background-size: cover;
+  background-position: center;
+}

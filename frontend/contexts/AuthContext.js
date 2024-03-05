@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useContext, useState } from "react";
 import api from "@/utils/api";
-import { useRouter } from "next/navigation";
+import { useRouter, notFound } from "next/navigation";
 import axios from "axios";
 import { toast } from "sonner";
 
@@ -30,8 +30,10 @@ export const AuthProvider = ({ children }) => {
       const authData = localStorage.getItem("isAuthenticated");
       return authData !== null ? authData : false;
     }
+    return false; 
   });
   const router = useRouter();
+  
 
   // Login function
   const login = async (values, resetForm, setSubmitting) => {
@@ -44,6 +46,8 @@ export const AuthProvider = ({ children }) => {
           email: response.email,
           username: response.username,
           full_name: response.full_name,
+          user_type: response.user_type,
+          initials: response.initials,
         };
 
         // Store user data and tokens in local storage
@@ -56,7 +60,17 @@ export const AuthProvider = ({ children }) => {
 
         // Update state and navigate to profile page
         setSubmitting(false);
-        router.push("/users/profile");
+
+        if (user.user_type === "customer") {
+          router.push("/user/profile");
+        } else if (user.user_type === "restaurant") {
+          router.push("/restaurant/dashboard");
+        } else if (user.user_type === "admin") {
+          router.push("/admin");
+        } else {
+          notFound();
+        }
+
         toast.success("Login Successful");
       }
     } catch (error) {
@@ -75,7 +89,7 @@ export const AuthProvider = ({ children }) => {
         refresh_token: localStorage.getItem("refresh"),
       });
       if (res.status === 200) {
-        setIsAuthenticated(true);
+        setIsAuthenticated(false);
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
         localStorage.removeItem("user");
@@ -84,6 +98,8 @@ export const AuthProvider = ({ children }) => {
         toast.success("Logged out successfully!");
       }
     } catch (error) {
+      toast.error("An error occured");
+      setIsAuthenticated(false);
       console.error("Logout Error:", error);
       // Handle logout error (e.g., display error message)
     }
@@ -245,6 +261,7 @@ export const AuthProvider = ({ children }) => {
         forgetPassword,
         resetPassword,
         isAuthenticated,
+        setIsAuthenticated,
       }}
     >
       {children}

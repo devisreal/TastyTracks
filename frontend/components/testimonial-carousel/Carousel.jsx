@@ -50,7 +50,7 @@ export default function TestimonialCarousel() {
             <blockquote className="rounded-xl bg-white p-6 shadow-sm sm:p-8">
               <div className="flex items-center gap-4">
                 <img
-                  alt=""
+                  alt="Testimonial User"
                   src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80"
                   className="size-14 rounded-full object-cover"
                 />

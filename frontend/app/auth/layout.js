@@ -24,7 +24,10 @@ export default function AuthLayout({ children }) {
             component={Link}
             variant="default"
             href="/"
-            className="font-geist font-light"
+            className="font-geist"
+            classNames={{
+              label: "font-medium",
+            }}
           >
             Go Home
           </Button>

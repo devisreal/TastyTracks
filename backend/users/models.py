@@ -42,7 +42,7 @@ class Customer(models.Model):
 
     objects = CustomerManager()
 
-    def initials(self):
+    def get_initials(self):
         x = self.user.get_full_name()
         fullname = str(x)
         l = []
@@ -71,7 +71,7 @@ class Restaurant(models.Model):
     address_line1 = models.CharField(max_length=255)
     address_line2 = models.CharField(max_length=255, blank=True, null=True)
     city = models.CharField(max_length=100)
-    country = models.CharField(max_length=100, default='United Kingdom')    
+    country = models.CharField(max_length=100, default="United Kingdom")
     logo = models.ImageField(upload_to=restaurant_upload_to, blank=True, null=True)
     # rating = models.FloatField(null=True, blank=True)
     # delivery_time = models.IntegerField(null=True, blank=True)  # in minutes
@@ -81,6 +81,15 @@ class Restaurant(models.Model):
     # opening_hours = models.CharField(max_length=100, null=True, blank=True)
 
     objects = RestaurantManager()
+
+    def get_initials(self):
+        x = self.store_name
+        storename = str(x)
+        l = []
+        for i in storename.split(" "):
+            l.append(i[0])
+        result = ".".join(l) + "."
+        return result
 
     def __str__(self):
         return f"{self.store_name}"
