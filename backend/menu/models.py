@@ -50,7 +50,7 @@ class MenuItem(models.Model):
     avg_rating = models.FloatField(default=0)
     number_rating = models.PositiveIntegerField(default=0)
     is_available = models.BooleanField(
-        default=False, verbose_name="Customer Status", blank=True, null=True
+        default=False, verbose_name="Avaialibilty Status", blank=True, null=True
     )
     is_promoted = models.BooleanField(default=False, verbose_name="Promotion Status")
     updated = models.DateTimeField(auto_now=True)
@@ -68,7 +68,12 @@ class MenuItemImage(models.Model):
     menu_item = models.ForeignKey(
         MenuItem, on_delete=models.CASCADE, related_name="images"
     )
-    image = models.ImageField(upload_to="menu_images/")
+    image = models.ImageField(upload_to="menu_item_images", max_length=255)
+
+    def __str__(self):
+        return (
+            f"Image for {self.menu_item.name} of {self.menu_item.restaurant.store_name}"
+        )
 
     class Meta:
         verbose_name = "Menu Image"
