@@ -32,7 +32,7 @@ export default function Header() {
                   type="text"
                   id="search"
                   name="search"
-                  className="block w-full rounded-full border-gray-200 px-4 py-4 pe-16 ps-14 font-geist text-lg shadow-sm focus:z-10 focus:border-black focus:ring-white focus:ring-offset-2 sm:py-5"
+                  className="block w-full rounded-full border-gray-200 px-4 py-4 pe-16 ps-14 font-geist text-md md:text-lg shadow-sm focus:z-10 focus:border-black focus:ring-white focus:ring-offset-2 sm:py-5"
                   placeholder="e.g. SW11 3TE"
                 />
                 <div className="pointer-events-none absolute inset-y-0 start-0 z-20 flex items-center ps-6">
@@ -63,7 +63,7 @@ export default function Header() {
                     size="lg"
                     className="font-geist"
                     classNames={{
-                      label: "text-md sm:text-base",
+                      label: "text-md md:text-base",
                       inner: "sm:px-4",
                     }}
                     variant="gradient"
