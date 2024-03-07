@@ -7,12 +7,12 @@ export default function RestaurantMenu() {
         <div className="flex items-center justify-between space-x-4 px-6 2xl:container">
           <h5
             hidden
-            className="block text-2xl font-medium text-gray-600 dark:text-white"
+            className="block font-clash text-2xl font-medium text-gray-800"
           >
             Menu
           </h5>
 
-          {/* <button className="-mr-2 h-16 w-12 border-r dark:border-gray-700 dark:text-gray-300 lg:hidden">
+          <button className="-mr-2 h-16 w-12 border-r dark:border-gray-700 dark:text-gray-300 lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="my-auto h-6 w-6"
@@ -103,7 +103,7 @@ export default function RestaurantMenu() {
                 <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
               </svg>
             </button>
-          </div> */}
+          </div>
         </div>
       </div>
     </>

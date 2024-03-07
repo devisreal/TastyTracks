@@ -28,11 +28,10 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     if (typeof window !== "undefined") {
       const authData = localStorage.getItem("isAuthenticated");
-      return authData !== null ? authData : false;      
-    }    
-    return false;
+      return authData !== null ? authData : false;
+    }
   });
-  
+
   const router = useRouter();
 
   // Login function

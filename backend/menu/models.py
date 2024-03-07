@@ -7,6 +7,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from users.models import Restaurant, Customer
 
+import os
+
 
 class MenuCategory(models.Model):
     name = models.CharField(max_length=255)
@@ -55,20 +57,40 @@ class MenuItem(models.Model):
     is_promoted = models.BooleanField(default=False, verbose_name="Promotion Status")
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+    slug = AutoSlugField(unique=True, populate_from="name", sep="-", null=True)
 
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Menu Item"
         verbose_name_plural = "Menu Items"
 
 
+def menu_image_path(instance, filename):
+    # Assuming instance.menu is the ForeignKey to the MenuItem model
+    menu_name = instance.menu_item.name
+    menu_store_name = instance.menu_item.restaurant.store_name
+    # Remove spaces and special characters from menu_name and convert to lowercase
+    menu_name = menu_name.lower().replace(" ", "_")
+    menu_store_name = menu_store_name.lower().replace(" ", "_")
+    # Get the file extension
+    ext = os.path.splitext(filename)[-1]
+    # Construct the new filename
+    new_filename = f"{menu_store_name}-{menu_name}{ext}"
+    # Return the path where the file will be uploaded
+    return os.path.join("menu_images", new_filename)
+
+
 class MenuItemImage(models.Model):
     menu_item = models.ForeignKey(
         MenuItem, on_delete=models.CASCADE, related_name="images"
     )
-    image = models.ImageField(upload_to="menu_item_images", max_length=255)
+    image = models.ImageField(upload_to=menu_image_path, max_length=255)
 
     def __str__(self):
         return (

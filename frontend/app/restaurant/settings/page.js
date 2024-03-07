@@ -7,7 +7,7 @@ export default function RestaurantSettings() {
         <div className="flex items-center justify-between space-x-4 px-6 2xl:container">
           <h5
             hidden
-            className="block text-2xl font-medium text-gray-600 dark:text-white"
+            className="block font-clash text-2xl font-medium text-gray-800"
           >
             Settings
           </h5>

@@ -14,7 +14,7 @@ export default function Navbar({ instantFixed }) {
   const [isClient, setIsClient] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();  
 
   useEffect(() => {
     setIsClient(true);
@@ -125,7 +125,7 @@ export default function Navbar({ instantFixed }) {
                   className="flex items-center gap-4"
                   suppressHydrationWarning
                 >
-                  {isAuthenticated === true ? (
+                  {isAuthenticated ? (
                     <AuthenticatedMenu />
                   ) : (
                     <div className="hidden sm:flex sm:gap-4">
@@ -245,13 +245,13 @@ export default function Navbar({ instantFixed }) {
                   </ul>
                 </nav>
               </div>
-
+                            
               {!isLoading ? (
                 <div
                   className="flex items-center gap-4"
                   suppressHydrationWarning
                 >
-                  {isAuthenticated === true ? (
+                  {isAuthenticated ? (
                     <AuthenticatedMenu />
                   ) : (
                     <div className="hidden sm:flex sm:gap-4">

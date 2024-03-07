@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function PromotionsPage() {
+export default function RestaurantAddMenuPage() {
   return (
     <>
       <div className="bg- sticky top-0 h-16 border-b dark:border-gray-700 dark:bg-gray-800 lg:py-2.5">
@@ -9,8 +9,10 @@ export default function PromotionsPage() {
             hidden
             className="block font-clash text-2xl font-medium text-gray-800"
           >
-            Promotions
+            Create Menu
           </h5>
+
+          
         </div>
       </div>
     </>

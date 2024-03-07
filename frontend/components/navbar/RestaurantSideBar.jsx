@@ -23,7 +23,7 @@ export default function RestaurantDashboardSideBar() {
         <li>
           <Link
             href="/restaurant/dashboard"
-            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/restaurant/dashboard" ? "border-primary-500 bg-primary-100/80 text-primary-700" : " text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700 border-transparent"}`}
+            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/restaurant/dashboard" ? "border-primary-500 bg-primary-100/80 text-primary-700" : " border-transparent text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700"}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +51,7 @@ export default function RestaurantDashboardSideBar() {
         <li>
           <Link
             href="/restaurant/orders"
-            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/restaurant/orders" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700 border-transparent"}`}
+            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/restaurant/orders" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "border-transparent text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700"}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +79,7 @@ export default function RestaurantDashboardSideBar() {
         <li>
           <Link
             href="/restaurant/menu"
-            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/restaurant/menu" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700 border-transparent"}`}
+            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/restaurant/menu" || pathname === "/restaurant/menu/add" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "border-transparent text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700"}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -104,7 +104,7 @@ export default function RestaurantDashboardSideBar() {
         <li>
           <Link
             href="/restaurant/promotions"
-            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/restaurant/promotions" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700 border-transparent"}`}
+            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/restaurant/promotions" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "border-transparent text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700"}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +132,7 @@ export default function RestaurantDashboardSideBar() {
         <li>
           <Link
             href="/restaurant/reviews"
-            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/restaurant/reviews" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700 border-transparent"}`}
+            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/restaurant/reviews" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "border-transparent text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700"}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -162,7 +162,7 @@ export default function RestaurantDashboardSideBar() {
         <li>
           <Link
             href="/restaurant/settings"
-            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/restaurant/settings" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700 border-transparent"}`}
+            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/restaurant/settings" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "border-transparent text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700"}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
