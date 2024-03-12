@@ -145,7 +145,7 @@ export default function Home() {
             </div>
           </div>
           <div className="relative mt-16 h-96 sm:h-96 lg:my-8 ">
-            <img
+            <Image
               className="left-0 top-0 mx-auto max-w-[24rem] rounded-md sm:w-[30rem] lg:absolute  lg:max-w-none"
               src="/images/illustration3.png"
               alt="App screenshot"

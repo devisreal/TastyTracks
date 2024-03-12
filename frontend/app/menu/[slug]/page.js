@@ -40,7 +40,7 @@ export default function MenuDetailPage() {
     if (params.slug) {
       fetchMenuDetail();
     }
-  }, [params.slug]);
+  }, [params.slug, router]);
 
   return (
     <div>

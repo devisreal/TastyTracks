@@ -23,7 +23,7 @@ export default function RestaurantProfile() {
                 </h1>
 
                 <p className="mt-1.5 text-sm text-gray-500 font-geist">
-                  Let's create a new menu item! ‍! 🎉
+                  Let&apos;s create a new menu item! ‍! 🎉
                 </p>
               </div>
 

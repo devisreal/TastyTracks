@@ -184,7 +184,7 @@ USE_TZ = True
 cloudinary.config(
     cloud_name=env("CLOUDINARY_CLOUD_NAME"),
     api_key=env("CLOUDINARY_API_KEY"),
-    api_secret=env("CLOUDINARY_API_SECRET")
+    api_secret=env("CLOUDINARY_API_SECRET"),
 )
 
 CLOUDINARY_STORAGE = {
@@ -219,7 +219,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     # "ROTATE_REFRESH_TOKENS": True,
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=3),
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=6),
     "REFRESH_TOKEN_LIFETIME": timedelta(weeks=1),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
