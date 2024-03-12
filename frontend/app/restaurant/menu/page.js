@@ -1,9 +1,45 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import Link from "next/link";
+import axios from "axios";
+import { Loader } from "@mantine/core";
+import MealCard from "@/components/meal-card/MealCard";
 
-export default function RestaurantMenu() {
+let access_token;
+if (typeof window !== "undefined") {
+  access_token = localStorage.getItem("access") || null;
+}
+
+export default function RestaurantMenu() {  
+  const [isLoadingMenu, setIsLoadingMenu] = useState(true);
+  const [restaurantMenu, setRestaurantMenu] = useState([]);
+
+  useLayoutEffect(() => {
+    const getRestaurantMenu = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:8000/menu/menu-items/by_restaurant/",
+          {
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+            },
+          },
+        );
+        if (res.status === 200) {
+          setRestaurantMenu(res.data);
+          setIsLoadingMenu(false);
+        }
+      } catch (error) {
+        console.error("Fetch Menu Item error", error);
+      }
+    };
+    getRestaurantMenu();
+    setIsLoadingMenu(false);
+  }, []);  
+
   return (
-    <>
-      <div className="bg- sticky top-0 h-16 border-b dark:border-gray-700 dark:bg-gray-800 lg:py-2.5">
+    <div className="py-2">
+      <div className="h-16 border-b dark:border-gray-700 dark:bg-gray-800 lg:py-2.5">
         <div className="flex items-center justify-between space-x-4 px-6 2xl:container">
           <h5
             hidden
@@ -11,23 +47,6 @@ export default function RestaurantMenu() {
           >
             Menu
           </h5>
-
-          <button className="-mr-2 h-16 w-12 border-r dark:border-gray-700 dark:text-gray-300 lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="my-auto h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </button>
 
           <div className="flex space-x-4">
             <div hidden className="md:block">
@@ -71,41 +90,48 @@ export default function RestaurantMenu() {
                 ></path>
               </svg>
             </button>
-            <button
-              aria-label="chat"
-              className="h-10 w-10 rounded-xl border bg-gray-100 active:bg-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:active:bg-gray-800"
+
+            <Link
+              href="/restaurant/menu/add"
+              className="rounded-xl border bg-gray-100 p-2 hover:bg-gray-200 active:bg-gray-200"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="m-auto h-5 w-5 text-gray-600 dark:text-gray-300"
-                fill="none"
+                className="icon icon-tabler icon-tabler-square-rounded-plus-filled m-auto size-7 text-primary-600"
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
+                strokeWidth="1.5"
                 stroke="currentColor"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                  d="M12 2l.324 .001l.318 .004l.616 .017l.299 .013l.579 .034l.553 .046c4.785 .464 6.732 2.411 7.196 7.196l.046 .553l.034 .579c.005 .098 .01 .198 .013 .299l.017 .616l.005 .642l-.005 .642l-.017 .616l-.013 .299l-.034 .579l-.046 .553c-.464 4.785 -2.411 6.732 -7.196 7.196l-.553 .046l-.579 .034c-.098 .005 -.198 .01 -.299 .013l-.616 .017l-.642 .005l-.642 -.005l-.616 -.017l-.299 -.013l-.579 -.034l-.553 -.046c-4.785 -.464 -6.732 -2.411 -7.196 -7.196l-.046 -.553l-.034 -.579a28.058 28.058 0 0 1 -.013 -.299l-.017 -.616c-.003 -.21 -.005 -.424 -.005 -.642l.001 -.324l.004 -.318l.017 -.616l.013 -.299l.034 -.579l.046 -.553c.464 -4.785 2.411 -6.732 7.196 -7.196l.553 -.046l.579 -.034c.098 -.005 .198 -.01 .299 -.013l.616 -.017c.21 -.003 .424 -.005 .642 -.005zm0 6a1 1 0 0 0 -1 1v2h-2l-.117 .007a1 1 0 0 0 .117 1.993h2v2l.007 .117a1 1 0 0 0 1.993 -.117v-2h2l.117 -.007a1 1 0 0 0 -.117 -1.993h-2v-2l-.007 -.117a1 1 0 0 0 -.993 -.883z"
+                  fill="currentColor"
+                  strokeWidth="0"
                 />
               </svg>
-            </button>
-            <button
-              aria-label="notification"
-              className="h-10 w-10 rounded-xl border bg-gray-100 active:bg-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:active:bg-gray-800"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="m-auto h-5 w-5 text-gray-600 dark:text-gray-300"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-              </svg>
-            </button>
+            </Link>
           </div>
         </div>
       </div>
-    </>
+
+      <div className="mx-auto max-w-2xl py-4 lg:max-w-none lg:py-4">
+        {!isLoadingMenu ? (
+          <div className="mt-6 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-4 lg:space-y-0">
+            {restaurantMenu.map((meal) => (
+              <MealCard meal={meal} key={meal.id} restaurant />
+            ))}
+          </div>
+        ) : (
+          <div className="flex h-20 flex-col items-center justify-center gap-y-12">
+            <Loader type="bars" color="primary" />
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

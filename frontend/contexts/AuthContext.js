@@ -23,13 +23,15 @@ export const AuthProvider = ({ children }) => {
       return JSON.parse(localStorage.getItem("user")) || null;
     }
     return null;
-  });
+  });  
 
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    // Check localStorage for "isAuthenticated" and set a default value if not found
     if (typeof window !== "undefined") {
-      const authData = localStorage.getItem("isAuthenticated");
-      return authData !== null ? authData : false;
+      const storedAuth = localStorage.getItem("isAuthenticated");
+      return storedAuth === null ? false : JSON.parse(storedAuth); // Parse stored value (if present)
     }
+    return false; // Default to false for server-side rendering or non-browser environments
   });
 
   const router = useRouter();
@@ -37,7 +39,7 @@ export const AuthProvider = ({ children }) => {
   // Login function
   const login = async (values, resetForm, setSubmitting) => {
     try {
-      const res = await axios.post("http://localhost:8000/api/login/", values);
+      const res = await axios.post("http://localhost:8000/auth/login/", values);
       const response = res.data;
 
       if (res.status === 200) {
@@ -83,7 +85,7 @@ export const AuthProvider = ({ children }) => {
   // Logout
   const logout = async () => {
     try {
-      const res = await api.post("/logout/", {
+      const res = await api.post("/auth/logout/", {
         refresh_token: localStorage.getItem("refresh"),
       });
       if (res.status === 200) {
@@ -97,6 +99,7 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       toast.error("An error occured");
+      router.push("/auth/login");
       setIsAuthenticated(false);
       console.error("Logout Error:", error);
       // Handle logout error (e.g., display error message)
@@ -108,7 +111,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const { first_name, last_name, email, password, password2 } = values;
       const res = await axios.post(
-        "http://localhost:8000/api/create-customer/",
+        "http://localhost:8000/auth/create-customer/",
         {
           user: {
             first_name,
@@ -154,7 +157,7 @@ export const AuthProvider = ({ children }) => {
         city,
       } = values;
       const res = await axios.post(
-        "http://localhost:8000/api/create-restaurant/",
+        "http://localhost:8000/auth/create-restaurant/",
         {
           user: {
             first_name,
@@ -192,7 +195,7 @@ export const AuthProvider = ({ children }) => {
   //   Verify Email
   const verifyEmail = async (otp, setIsSubmitting) => {
     try {
-      const res = await axios.post("http://localhost:8000/api/verify-email/", {
+      const res = await axios.post("http://localhost:8000/auth/verify-email/", {
         otp: otp,
       });
       if (res.status === 200) {
@@ -211,7 +214,7 @@ export const AuthProvider = ({ children }) => {
   const forgetPassword = async (email, setSubmitting, resetForm) => {
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/password-reset/",
+        "http://localhost:8000/auth/password-reset/",
         {
           email: email,
         },
@@ -232,7 +235,7 @@ export const AuthProvider = ({ children }) => {
   //   Reset Password
   const resetPassword = async (data, setSubmitting, resetForm) => {
     try {
-      const res = await api.patch("/set-new-password/", data);
+      const res = await api.patch("/auth/set-new-password/", data);
       if (res.status === 200) {
         resetForm({ values: "" });
         router.push("/auth/login/");
@@ -247,6 +250,44 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const addMenuItem = async (values, setSubmitting, resetForm) => {
+    try {
+      const data = new FormData();
+
+      // Loop through the values object and append each key-value pair to the FormData
+      for (const key in values) {
+        if (values.hasOwnProperty(key)) {
+          if (key.startsWith("image")) {
+            // If the key starts with "image", it's a file input, so append the file
+            data.append(key, values[key]);
+          } else {
+            // Otherwise, append the value as a regular field
+            data.append(key, values[key]);
+          }
+        }
+      }
+
+      const res = await api.post("/menu/menu-items/", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (res.status === 201) {
+        resetForm({ values: "" });
+        router.push("/restaurant/menu/");
+        toast.success("Menu Item Added Successfully");
+      }
+    } catch (error) {
+      console.error("Add Menu Item Error:", error);
+      // Handle add menu item error (e.g., display error message)
+      toast.error("Failed to add menu item");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  
+
   return (
     <AuthContext.Provider
       value={{
@@ -260,6 +301,7 @@ export const AuthProvider = ({ children }) => {
         resetPassword,
         isAuthenticated,
         setIsAuthenticated,
+        addMenuItem,                
       }}
     >
       {children}

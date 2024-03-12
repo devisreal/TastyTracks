@@ -11,7 +11,7 @@ export default function RestaurantDashboardLayout({ children }) {
       <div className="hidden px-12 lg:block">
         <RestaurantDashboardSideBar />
       </div>
-      <div className="h-96 rounded-lg bg-gray-100 lg:col-span-2">
+      <div className=" rounded-lg bg-gray-50 lg:col-span-2 border">
         {children}
       </div>
     </div>

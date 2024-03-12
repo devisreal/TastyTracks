@@ -1,10 +1,9 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from menu.models import MenuCategory, MenuItem, MenuItemImage
+from menu.models import MenuCategory, MenuItem
 from menu.api.serializers import (
     MenuCategorySerializer,
-    MenuItemSerializer,
-    MenuItemImageSerializer,
+    MenuItemSerializer,    
 )
 from users.api.permissions import IsAdminOrReadOnly, IsOwner
 from rest_framework.permissions import (
@@ -14,6 +13,8 @@ from rest_framework.permissions import (
 )
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework import generics
+from rest_framework.decorators import action
 
 
 class MenuCategoryViewSet(viewsets.ModelViewSet):
@@ -42,21 +43,35 @@ class MenuCategoryViewSet(viewsets.ModelViewSet):
 class MenuItemViewSet(viewsets.ModelViewSet):
     queryset = MenuItem.objects.all()
     serializer_class = MenuItemSerializer
+    lookup_field = 'slug'
     # permission_classes = [IsOwner]
-    parser_classes = [MultiPartParser, FormParser]
+    # parser_classes = [MultiPartParser, FormParser]
 
     def perform_create(self, serializer):
         # Assign the restaurant to the menu item being created
-        serializer.save(restaurant=self.request.user.restaurant)
+        serializer.save(restaurant=self.request.user.restaurant)        
         
-        images_data = self.request.FILES.getlist('images')  # Get list of uploaded images
-        menu_item = serializer.instance  # Get the created MenuItem instance
-        
-        for image_data in images_data:
-            MenuItemImage.objects.create(menu_item=menu_item, image=image_data)
+    @action(detail=False, methods=['get'])
+    def by_restaurant(self, request):
+        # Retrieve menu items for the restaurant of the logged-in user
+        queryset = self.queryset.filter(restaurant=request.user.restaurant)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
-class MenuItemImageViewSet(viewsets.ModelViewSet):
-    queryset = MenuItemImage.objects.all()
-    serializer_class = MenuItemImageSerializer
-    permission_classes = [IsOwner]
+class MenuItemListAPIView(generics.ListAPIView):
+    serializer_class = MenuItemSerializer
+
+    def get_queryset(self):
+        queryset = MenuItem.objects.all()
+
+        # Check if 'sort' query parameter is provided
+        sort_param = self.request.query_params.get('sort')
+        if sort_param:
+            # Sort queryset by price (ascending or descending)
+            if sort_param == 'asc':
+                queryset = queryset.order_by('price')
+            elif sort_param == 'desc':
+                queryset = queryset.order_by('-price')
+
+        return queryset

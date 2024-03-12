@@ -37,10 +37,7 @@ export default function LoginForm() {
         email: Yup.string()
           .email("Invalid email address")
           .required("Please enter a valid email address"),
-        password: Yup.string()
-          .min(8, "Password must be 6 characters or more")
-          .minUppercase(1, "Password requires at least 1 uppercase character")
-          .required("Enter your password"),
+        password: Yup.string().required("Enter your password"),
       })}
       onSubmit={handleLogin}
     >

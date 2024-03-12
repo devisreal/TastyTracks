@@ -78,7 +78,7 @@ export default function RestaurantDashboardSideBar() {
 
         <li>
           <Link
-            href="/restaurant/menu"
+            href="/restaurant/menu"            
             className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/restaurant/menu" || pathname === "/restaurant/menu/add" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "border-transparent text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700"}`}
           >
             <svg

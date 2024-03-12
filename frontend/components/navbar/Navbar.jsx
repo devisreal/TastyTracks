@@ -14,8 +14,8 @@ export default function Navbar({ instantFixed }) {
   const [isClient, setIsClient] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const pathname = usePathname();
-  const { isAuthenticated, user } = useAuth();  
-
+  const { isAuthenticated, user } = useAuth();
+  
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -245,7 +245,7 @@ export default function Navbar({ instantFixed }) {
                   </ul>
                 </nav>
               </div>
-                            
+
               {!isLoading ? (
                 <div
                   className="flex items-center gap-4"

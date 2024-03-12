@@ -10,10 +10,10 @@ export default function Header() {
         className="absolute inset-0 h-full w-full object-cover object-center"
       />
 
-      <div className="relative flex items-center justify-center bg-gradient-to-t from-gray-900/70 to-gray-900/75 py-28 md:py-48 xl:py-64">
+      <div className="relative flex items-center justify-center bg-gradient-to-t from-gray-900/70 to-gray-900/75 py-40 md:py-48 xl:py-64">
         <div className="mx-auto max-w-5xl px-6 lg:px-8">
           <div className="mx-auto text-center lg:mx-0">
-            <h2 className="font-clash text-4xl font-bold leading-none tracking-normal text-white sm:text-6xl sm:leading-normal">
+            <h2 className="font-clash text-4xl font-bold leading-none tracking-normal text-white sm:text-6xl md:leading-normal">
               Order your favourite food online
             </h2>
             <p className="mt-4 font-geist leading-8 text-gray-100 sm:mt-0 sm:text-lg">

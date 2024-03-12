@@ -68,7 +68,7 @@ export function SideNav({ instantFixed, colorChange }) {
             </li>
           </ul>
 
-          {!isAuthenticated === false && (
+          {!isAuthenticated && (
             <div className="flex flex-col gap-y-3">
               <Button
                 variant="filled"

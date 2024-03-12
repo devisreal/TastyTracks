@@ -1,108 +1,71 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Navbar from "@/components/navbar/Navbar";
 import Image from "next/image";
+import axios from "axios";
+import {  
+  IconArrowNarrowRight,
+} from "@tabler/icons-react";
+import { Loader } from "@mantine/core";
+import MealCard from "@/components/meal-card/MealCard";
 
-const previewMeals = [
-  {
-    name: "Sushi",
-    image:
-      "https://res.cloudinary.com/ds4h5p2np/image/upload/v1709065649/tasty_tracks/home_tabs/sushi-2_fdpart.webp",
-  },
-  {
-    name: "Burgers",
-    image:
-      "https://res.cloudinary.com/ds4h5p2np/image/upload/v1709065630/tasty_tracks/home_tabs/burger-1_apzfpv.webp",
-  },
-  {
-    name: "Ramen",
-    image:
-      "https://res.cloudinary.com/ds4h5p2np/image/upload/v1709065661/tasty_tracks/home_tabs/ramen-2_ya2sdk.webp",
-  },
-  {
-    name: "Sandwiches",
-    image:
-      "https://res.cloudinary.com/ds4h5p2np/image/upload/v1709065665/tasty_tracks/home_tabs/sandwich-1_gteecm.webp",
-  },
-  {
-    name: "Salads",
-    image:
-      "https://res.cloudinary.com/ds4h5p2np/image/upload/v1709065585/tasty_tracks/home_tabs/salad-1_lmsx3j.jpg",
-  },
-];
-
-const callouts = [
-  {
-    name: "Desk and Office",
-    description: "Work from home accessories",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg",
-    imageAlt:
-      "Desk with leather desk pad, walnut desk organizer, wireless keyboard and mouse, and porcelain mug.",
-    href: "#",
-  },
-  {
-    name: "Self-Improvement",
-    description: "Journals and note-taking",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-02.jpg",
-    imageAlt:
-      "Wood table with porcelain mug, leather journal, brass pen, leather key ring, and a houseplant.",
-    href: "#",
-  },
-  {
-    name: "Travel",
-    description: "Daily commute essentials",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg",
-    imageAlt: "Collection of four insulated travel bottles on wooden shelf.",
-    href: "#",
-  },
-  {
-    name: "Travels",
-    description: "Daily commute essentials",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg",
-    imageAlt: "Collection of four insulated travel bottles on wooden shelf.",
-    href: "#",
-  },
-];
-
-function Example() {
-  return (
-    <div className="">
-      <div className="mx-auto max-w-[85rem] px-4 sm:px-4 lg:px-0">
-        <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
-          <div className="mt-6 space-y-12 lg:grid lg:grid-cols-4 lg:gap-x-4 lg:space-y-0">
-            {callouts.map((callout) => (
-              <div
-                key={callout.name}
-                className="group relative rounded-2xl bg-gray-200 p-3 py-6"
-              >
-                <div className="sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 relative h-80 w-full overflow-hidden rounded-lg bg-white group-hover:opacity-75 sm:h-52">
-                  <img
-                    src={callout.imageSrc}
-                    alt={callout.imageAlt}
-                    className="h-full w-full object-cover object-center"
-                  />
-                </div>
-                <h3 className="mt-6 text-sm text-gray-500">
-                  <a href={callout.href}>
-                    <span className="absolute inset-0" />
-                    {callout.name}
-                  </a>
-                </h3>
-                <p className="text-base font-semibold text-gray-900">
-                  {callout.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 export default function MenuPage() {
+  const [menu, setMenu] = useState([]);
+  const [isLoadingMenu, setIsLoadingMenu] = useState(true);
+  const [categories, setCategories] = useState([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+  const [sortedMenuItems, setSortedMenuItems] = useState([]);
+  const [sortOption, setSortOption] = useState("");
+
+  useEffect(() => {
+    const fetchMenus = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/menu/all-menu-items/",
+        );
+
+        setMenu(response.data);
+        setSortedMenuItems(response.data);
+        setIsLoadingMenu(false);
+      } catch (error) {
+        console.error("Error fetching menus:", error);
+      }
+    };
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/menu/category/",
+        );
+        const firstFiveCategories = response.data.slice(0, 5); // Get first five categories
+        setCategories(firstFiveCategories);
+        setIsLoadingCategories(false);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchMenus();
+    fetchCategories();
+  }, []);
+
+  const handleSortChange = (event) => {
+    const selectedOption = event.target.value;
+    setSortOption(selectedOption);
+    sortMenuItems(selectedOption);
+  };
+
+  const sortMenuItems = (option) => {
+    const sorted = [...menu].sort((a, b) => {
+      // Custom sorting logic based on option (ascending or descending)
+      if (option === "asc") {
+        return a.price - b.price;
+      } else if (option === "desc") {
+        return b.price - a.price;
+      }
+    });
+    setSortedMenuItems(sorted);
+  };
+
   return (
     <div>
       <Navbar />
@@ -118,103 +81,44 @@ export default function MenuPage() {
         </header>
       </div>
       <section className="mx-auto mt-20 max-w-[85rem]">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-4 xl:grid-cols-5">
-          {previewMeals.map((meal, index) => (
-            <div className="group mx-auto w-fit" key={index}>
-              <div
-                style={{
-                  position: "relative",
-                  width: "260px",
-                  height: "150px",
-                }}
-              >
-                <Image
-                  src={meal.image}
-                  alt={meal.image}
-                  sizes="250px"
-                  fill
+        {!isLoadingCategories ? (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-4 xl:grid-cols-5">
+            {categories.map((category, index) => (
+              <div className="group mx-auto w-fit" key={index}>
+                <div
                   style={{
-                    objectFit: "cover",
-                    borderRadius: "12px",
+                    position: "relative",
+                    width: "260px",
+                    height: "150px",
                   }}
-                  className="transition duration-300 group-hover:scale-[1.02]"
-                />
+                >
+                  <Image
+                    src={category.image}
+                    alt={category.image}
+                    sizes="250px"
+                    fill
+                    style={{
+                      objectFit: "cover",
+                      borderRadius: "12px",
+                    }}
+                    className="transition duration-300 group-hover:scale-[1.02]"
+                  />
+                </div>
+
+                <h5 className="mt-3 font-clash text-xl font-medium">
+                  {category.name}
+                </h5>
               </div>
-
-              <h5 className="mt-3 font-clash text-xl font-medium">
-                {meal.name}
-              </h5>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex h-20 flex-col items-center justify-center gap-y-12">
+            <Loader type="bars" color="primary" />
+          </div>
+        )}
       </section>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <section className="mx-auto max-w-[85rem]">
-        <div className="flex items-center gap-3 font-geist">
-          <span className="inline-flex items-center gap-x-1.5 rounded-full border border-gray-200 px-4 py-1.5 text-md font-medium text-gray-800">
-            All
-          </span>
 
-          <div className="inline-flex flex-nowrap items-center rounded-full border border-gray-200 bg-white p-1.5 px-2 pe-3 ">
-            <img
-              className="me-1.5 inline-block size-6 rounded-full"
-              src="https://img.freepik.com/free-psd/delicious-cheese-pizza-isolated-transparent-background_84443-1224.jpg?t=st=1709233429~exp=1709237029~hmac=0c04c091352a9f00ac9a203a67fc3e3e70ffc42aedb446145f21f37994d86f81&w=826"
-              alt="Image Description"
-            />
-            <div className="whitespace-nowrap text-md font-medium text-gray-800">
-              Pizza
-            </div>
-          </div>
-
-          <div className="inline-flex flex-nowrap items-center rounded-full border border-gray-200 bg-white p-1.5 px-2 pe-3 ">
-            <img
-              className="me-1.5 inline-block size-6 rounded-full"
-              src="https://img.freepik.com/free-psd/delicious-cheese-pizza-isolated-transparent-background_84443-1224.jpg?t=st=1709233429~exp=1709237029~hmac=0c04c091352a9f00ac9a203a67fc3e3e70ffc42aedb446145f21f37994d86f81&w=826"
-              alt="Image Description"
-            />
-            <div className="whitespace-nowrap text-md font-medium text-gray-800">
-              Pizza
-            </div>
-          </div>
-
-          <div className="inline-flex flex-nowrap items-center rounded-full border border-gray-200 bg-white p-1.5 px-2 pe-3 ">
-            <img
-              className="me-1.5 inline-block size-6 rounded-full"
-              src="https://img.freepik.com/free-psd/delicious-cheese-pizza-isolated-transparent-background_84443-1224.jpg?t=st=1709233429~exp=1709237029~hmac=0c04c091352a9f00ac9a203a67fc3e3e70ffc42aedb446145f21f37994d86f81&w=826"
-              alt="Image Description"
-            />
-            <div className="whitespace-nowrap text-md font-medium text-gray-800">
-              Pizza
-            </div>
-          </div>
-
-          <div className="inline-flex flex-nowrap items-center rounded-full border border-gray-200 bg-white p-1.5 px-2 pe-3 ">
-            <img
-              className="me-1.5 inline-block size-6 rounded-full"
-              src="https://img.freepik.com/free-psd/delicious-cheese-pizza-isolated-transparent-background_84443-1224.jpg?t=st=1709233429~exp=1709237029~hmac=0c04c091352a9f00ac9a203a67fc3e3e70ffc42aedb446145f21f37994d86f81&w=826"
-              alt="Image Description"
-            />
-            <div className="whitespace-nowrap text-md font-medium text-gray-800">
-              Pizza
-            </div>
-          </div>
-
-          <div className="inline-flex flex-nowrap items-center rounded-full border border-gray-200 bg-white p-1.5 px-2 pe-3 ">
-            <img
-              className="me-1.5 inline-block size-6 rounded-full"
-              src="https://img.freepik.com/free-psd/delicious-cheese-pizza-isolated-transparent-background_84443-1224.jpg?t=st=1709233429~exp=1709237029~hmac=0c04c091352a9f00ac9a203a67fc3e3e70ffc42aedb446145f21f37994d86f81&w=826"
-              alt="Image Description"
-            />
-            <div className="whitespace-nowrap text-md font-medium text-gray-800">
-              Pizza
-            </div>
-          </div>
-        </div>
-
+      <section className="mx-auto mt-20 max-w-[85rem] px-6">
         <div className="mt-6">
           <label htmlFor="search" className="sr-only">
             Search
@@ -247,17 +151,18 @@ export default function MenuPage() {
         </div>
 
         <div className="mt-6 flex items-center gap-4">
-          <select className="block w-fit rounded-full border-none bg-gray-100 px-6 py-2 pe-9 font-geist text-md font-medium focus:border-none focus:outline-none">
-            <option defaultValue>Sort by</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-          </select>
-          <select className="block w-fit rounded-full border-none bg-gray-100 px-6 py-2 pe-9 font-geist text-md font-medium focus:border-none focus:outline-none">
-            <option defaultValue>Price</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
+          <span className="inline-flex w-fit gap-x-2 rounded-full border-none bg-gray-100 px-4 py-2 font-geist text-md font-medium focus:border-none focus:outline-none">
+            Sort by <IconArrowNarrowRight />
+          </span>
+          <select
+            id="sort"
+            value={sortOption}
+            onChange={handleSortChange}
+            className="block w-fit rounded-full border-none bg-gray-100 px-6 py-2 pe-9 font-geist text-md font-medium focus:border-none focus:outline-none"
+          >
+            <option value="">Price</option>
+            <option value="asc">Price (Low to High)</option>
+            <option value="desc">Price (High to Low)</option>
           </select>
           <select className="block w-fit rounded-full border-none bg-gray-100 px-6 py-2 pe-9 font-geist text-md font-medium focus:border-none focus:outline-none">
             <option defaultValue>Rating</option>
@@ -266,18 +171,24 @@ export default function MenuPage() {
             <option>3</option>
           </select>
         </div>
-
-        <br />
-        <br />
-        <br />
-        <br />
-
-        <Example />
       </section>
-      <br />
-      <br />
-      <br />
-      MenuPage
+
+      <div className="mx-auto max-w-[85rem] px-4 sm:px-4 lg:px-0">
+        <div className="mx-auto max-w-2xl py-4 lg:max-w-none lg:py-4">
+          {!isLoadingMenu ? (
+            <div className="mt-6 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:gap-x-4 lg:space-y-0">
+              {sortedMenuItems.map((meal) => (
+                <MealCard meal={meal} key={meal.id} menu />
+              ))}
+            </div>
+          ) : (
+            <div className="flex h-20 flex-col items-center justify-center gap-y-12">
+              <Loader type="bars" color="primary" />
+            </div>
+          )}
+        </div>
+      </div>
+
       <br />
       <br />
       <br />
