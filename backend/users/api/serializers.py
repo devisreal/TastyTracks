@@ -16,6 +16,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from menu.api.serializers import MenuItemSerializer
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -182,14 +183,16 @@ class RestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
         fields = "__all__"
-        
+
+
 class RestaurantWithMenuSerializer(serializers.ModelSerializer):
     menu_items = MenuItemSerializer(many=True, read_only=True)
     user = UserSerializer()
 
     class Meta:
         model = Restaurant
-        fields = '__all__'
+        fields = "__all__"
+
 
 class CreateRestaurantSerializer(serializers.ModelSerializer):
     user = UserRegisterSerializer()
@@ -251,11 +254,11 @@ class PasswordResetSerializer(serializers.Serializer):
             uuid64 = urlsafe_base64_encode(smart_bytes(user.id))
             token = PasswordResetTokenGenerator().make_token(user)
             request = self.context.get("request")
-            site_domain = "localhost:8080/auth"
+            site_domain = "tastytracks.vercel.app/"
             relative_link = reverse(
                 "reset-password", kwargs={"uidb64": uuid64, "token": token}
             )
-            absolute = f"http://{site_domain}{relative_link}"
+            absolute = f"https://{site_domain}{relative_link}"
             html_content = render_to_string(
                 "password_reset_email.html",
                 {"recipient_name": recipient_name, "absolute_link": absolute},
