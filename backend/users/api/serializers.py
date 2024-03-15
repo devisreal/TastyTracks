@@ -254,7 +254,7 @@ class PasswordResetSerializer(serializers.Serializer):
             uuid64 = urlsafe_base64_encode(smart_bytes(user.id))
             token = PasswordResetTokenGenerator().make_token(user)
             request = self.context.get("request")
-            site_domain = "tastytracks.vercel.app/"
+            site_domain = "tastytracks.vercel.app"
             relative_link = reverse(
                 "reset-password", kwargs={"uidb64": uuid64, "token": token}
             )
