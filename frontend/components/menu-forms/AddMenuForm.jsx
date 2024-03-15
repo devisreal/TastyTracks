@@ -68,7 +68,7 @@ export default function AddMenuForm() {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/menu/category/",
+          "https://tasty-tracks.onrender.com/menu/category/",
         );
         setCategories(response.data);
       } catch (error) {

@@ -39,7 +39,10 @@ export const AuthProvider = ({ children }) => {
   // Login function
   const login = async (values, resetForm, setSubmitting) => {
     try {
-      const res = await axios.post("http://localhost:8000/auth/login/", values);
+      const res = await axios.post(
+        "https://tasty-tracks.onrender.com/auth/login/",
+        values,
+      );
       const response = res.data;
 
       if (res.status === 200) {
@@ -110,7 +113,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const { first_name, last_name, email, password, password2 } = values;
       const res = await axios.post(
-        "http://localhost:8000/auth/create-customer/",
+        "https://tasty-tracks.onrender.com/auth/create-customer/",
         {
           user: {
             first_name,
@@ -156,7 +159,7 @@ export const AuthProvider = ({ children }) => {
         city,
       } = values;
       const res = await axios.post(
-        "http://localhost:8000/auth/create-restaurant/",
+        "https://tasty-tracks.onrender.com/auth/create-restaurant/",
         {
           user: {
             first_name,
@@ -194,9 +197,12 @@ export const AuthProvider = ({ children }) => {
   //   Verify Email
   const verifyEmail = async (otp, setIsSubmitting) => {
     try {
-      const res = await axios.post("http://localhost:8000/auth/verify-email/", {
-        otp: otp,
-      });
+      const res = await axios.post(
+        "https://tasty-tracks.onrender.com/auth/verify-email/",
+        {
+          otp: otp,
+        },
+      );
       if (res.status === 200) {
         router.push("/auth/login");
         toast.success(res.data.message);
@@ -213,7 +219,7 @@ export const AuthProvider = ({ children }) => {
   const forgetPassword = async (email, setSubmitting, resetForm) => {
     try {
       const res = await axios.post(
-        "http://localhost:8000/auth/password-reset/",
+        "https://tasty-tracks.onrender.com/auth/password-reset/",
         {
           email: email,
         },
@@ -390,7 +396,7 @@ export const AuthProvider = ({ children }) => {
         last_name: values.last_name,
         username: values.username,
       };
-      
+
       data.append("user", JSON.stringify(userData));
 
       data.append("address", values.address);
@@ -404,7 +410,7 @@ export const AuthProvider = ({ children }) => {
         // data.append("avatar", values.avatar);
         console.log("Appending file:", values.avatar); // Check file object
         data.append("avatar", values.avatar);
-      } 
+      }
       // else if (
       //   values.avatar &&
       //   typeof values.avatar === "string" &&
@@ -425,7 +431,7 @@ export const AuthProvider = ({ children }) => {
 
       if (res.status === 200) {
         resetForm({ values: "" });
-        console.log(data)
+        console.log(data);
         fetchCustomerDetail();
         toast.success("Customer Details Updated Successfully");
       }
@@ -433,7 +439,7 @@ export const AuthProvider = ({ children }) => {
       console.error("Update Customer Details Error:", error);
       // Handle error (e.g., display error message)
       // toast.error("Failed to update customer details");
-      window.location.reload()
+      window.location.reload();
     } finally {
       setSubmitting(false);
     }
@@ -462,7 +468,7 @@ export const AuthProvider = ({ children }) => {
         fetchCustomerDetail,
         updateCustomerDetails,
         restaurantDetail,
-        fetchRestaurantDetail
+        fetchRestaurantDetail,
       }}
     >
       {children}

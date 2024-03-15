@@ -15,7 +15,7 @@ export default function RestaurantsPage() {
     const fetchRestaurants = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/auth/restaurants/",
+          "https://tasty-tracks.onrender.com/auth/restaurants/",
         );
 
         setRestaurants(response.data);
@@ -66,9 +66,12 @@ export default function RestaurantsPage() {
                           {restaurant.store_name}
                         </h2>
                         <p className="font-giest text-sm text-gray-600">
-                          {restaurant.address_line1}, {restaurant.city}, {restaurant.country}
+                          {restaurant.address_line1}, {restaurant.city},{" "}
+                          {restaurant.country}
                         </p>
-                        <p className="text-sm text-gray-500">{restaurant.phone_number}</p>
+                        <p className="text-sm text-gray-500">
+                          {restaurant.phone_number}
+                        </p>
                       </div>
                       <div className="mt-2 flex items-center justify-end space-x-2">
                         <Button

@@ -3,9 +3,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "@/components/navbar/Navbar";
 import Image from "next/image";
 import axios from "axios";
-import {  
-  IconArrowNarrowRight,
-} from "@tabler/icons-react";
+import { IconArrowNarrowRight } from "@tabler/icons-react";
 import { Loader } from "@mantine/core";
 import MealCard from "@/components/meal-card/MealCard";
 
@@ -21,7 +19,7 @@ export default function MenuPage() {
     const fetchMenus = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/menu/all-menu-items/",
+          "https://tasty-tracks.onrender.com/menu/all-menu-items/",
         );
 
         setMenu(response.data);
@@ -34,7 +32,7 @@ export default function MenuPage() {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/menu/category/",
+          "https://tasty-tracks.onrender.com/menu/category/",
         );
         const firstFiveCategories = response.data.slice(0, 5); // Get first five categories
         setCategories(firstFiveCategories);

@@ -21,7 +21,7 @@ export default function RestaurantDetailPage() {
     const fetchRestaurantDetail = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/auth/restaurant/detail/?username=${params.username}`,
+          `https://tasty-tracks.onrender.com/auth/restaurant/detail/?username=${params.username}`,
         );
         setRestaurantDetail(response.data);
         console.log(response.data);
@@ -46,10 +46,10 @@ export default function RestaurantDetailPage() {
           <div>
             <div className=" px-4 py-6 sm:px-6 lg:px-8">
               <div className="space-y-1.5">
-                <h1 className="text-center text-4xl font-bold tracking- font-clash">
+                <h1 className="tracking- text-center font-clash text-4xl font-bold">
                   {restaurantDetail.store_name}
                 </h1>
-                <p className="text-center text-gray-600 font-geist">
+                <p className="text-center font-geist text-gray-600">
                   {restaurantDetail.description}
                 </p>
               </div>
@@ -143,9 +143,16 @@ export default function RestaurantDetailPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="flex flex-col items-center justify-center space-y-4 border mt-2 py-12">
-                    <IconX width={40} height={40} stroke={3} className="text-red-500" />
-                    <p className="">{restaurantDetail.store_name} has no meals</p>
+                  <div className="mt-2 flex flex-col items-center justify-center space-y-4 border py-12">
+                    <IconX
+                      width={40}
+                      height={40}
+                      stroke={3}
+                      className="text-red-500"
+                    />
+                    <p className="">
+                      {restaurantDetail.store_name} has no meals
+                    </p>
                   </div>
                 )}
               </div>

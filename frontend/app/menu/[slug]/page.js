@@ -26,7 +26,7 @@ export default function MenuDetailPage() {
     const fetchMenuDetail = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/menu/menu-items/${params.slug}`,
+          `https://tasty-tracks.onrender.com/menu/menu-items/${params.slug}`,
         );
         setMenuDetail(response.data);
         setIsLoading(false);
