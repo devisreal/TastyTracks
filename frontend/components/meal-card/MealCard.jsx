@@ -37,11 +37,13 @@ export default function MealCard({ meal, restaurant = false, menu = false }) {
         </p>
 
         {user?.user_type === "customer" && (
-          <IconSquareRoundedPlusFilled width={30} height={30} />
+          <Link href="">
+            <IconSquareRoundedPlusFilled width={30} height={30} />
+          </Link>
         )}
-        {user?.user_type === "restaurant" && (
+        {/* {user?.user_type === "restaurant" && (
           <IconEdit width={22} height={22} />
-        )}
+        )} */}
       </div>
     </div>
   );

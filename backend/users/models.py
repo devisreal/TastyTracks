@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from autoslug import AutoSlugField
 from django.template.defaultfilters import slugify
 from users.managers import CustomerManager, CustomUserManager, RestaurantManager
-
+import os
 
 # def get_upload_path(instance, filename):
 #     return os.path.join('images', 'avatars', str(instance.user.pk))
@@ -23,6 +23,10 @@ class User(AbstractUser):
 
     objects = CustomUserManager()
 
+    def __str__(self):
+        # return f"{self.first_name} {self.last_name}"
+        return f"{self.username}"
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.username)
         super().save(*args, **kwargs)
@@ -32,13 +36,26 @@ def customer_upload_to(instance, filename):
     return "avatars/{filename}".format(filename=filename)
 
 
+def customer_avatar_path(instance, filename):
+    # Assuming instance.menu is the ForeignKey to the MenuItem model
+    customer_username = instance.user.username
+
+    customer_username = customer_username.lower().replace(" ", "_")
+    ext = os.path.splitext(filename)[-1]
+    new_filename = f"{customer_username}-avatar{ext}"
+    # Return the path where the file will be uploaded
+    return os.path.join("customer_avatars", new_filename)
+
+
 class Customer(models.Model):
     customer_id = models.UUIDField(default=uuid.uuid4, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=255)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100, null=True, blank=True)
     post_code = models.CharField(max_length=10)
     phone_number = models.CharField(max_length=15)
-    avatar = models.ImageField(upload_to=customer_upload_to, blank=True, null=True)
+    avatar = models.ImageField(upload_to=customer_avatar_path, blank=True, null=True)
 
     objects = CustomerManager()
 

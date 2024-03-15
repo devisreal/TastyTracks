@@ -1,29 +1,20 @@
 "use client";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import Link from "next/link";
-import axios from "axios";
-import { Loader } from "@mantine/core";
+import { toast } from "sonner";
+import { Loader, TypographyStylesProvider } from "@mantine/core";
 import MealCard from "@/components/meal-card/MealCard";
+import api from "@/utils/api";
 
-let access_token;
-if (typeof window !== "undefined") {
-  access_token = localStorage.getItem("access") || null;
-}
-
-export default function RestaurantMenu() {  
+export default function RestaurantMenu() {
   const [isLoadingMenu, setIsLoadingMenu] = useState(true);
   const [restaurantMenu, setRestaurantMenu] = useState([]);
 
   useLayoutEffect(() => {
     const getRestaurantMenu = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:8000/menu/menu-items/by_restaurant/",
-          {
-            headers: {
-              Authorization: `Bearer ${access_token}`,
-            },
-          },
+        const res = await api.get(
+          "/menu/menu-items/by_restaurant/",
         );
         if (res.status === 200) {
           setRestaurantMenu(res.data);
@@ -31,11 +22,12 @@ export default function RestaurantMenu() {
         }
       } catch (error) {
         console.error("Fetch Menu Item error", error);
+        toast.error("Error fetching menus");
       }
     };
     getRestaurantMenu();
     setIsLoadingMenu(false);
-  }, []);  
+  }, []);
 
   return (
     <div className="py-2">

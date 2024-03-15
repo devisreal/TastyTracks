@@ -14,28 +14,21 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
-
+from menu.api.serializers import MenuItemSerializer
 
 class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        # fields = "__all__"
+        exclude = ["password"]
+
+
+class UserRegisterSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={"input_type": "password"}, write_only=True)
 
     class Meta:
         model = User
-        fields = [
-            "username",
-            "slug",
-            "email",
-            "password",
-            "password2",
-            "first_name",
-            "last_name",
-            "is_customer",
-            "is_owner",
-            "is_staff",
-            "is_superuser",
-            "is_active",
-            "is_verified",
-        ]
+        fields = "__all__"
         extra_kwargs = {
             "email": {"required": True, "allow_blank": False},
             "password": {"write_only": True},
@@ -95,9 +88,9 @@ class UserLoginSerializer(serializers.Serializer):
             if user and user.is_verified:
                 refresh = RefreshToken.for_user(user)
                 if user.is_customer:
-                    user_type = "customer"                    
+                    user_type = "customer"
                 elif user.is_owner:
-                    user_type = "restaurant"                    
+                    user_type = "restaurant"
                 elif user.is_staff:
                     user_type = "admin"
                 else:
@@ -106,7 +99,7 @@ class UserLoginSerializer(serializers.Serializer):
                     "email": email,
                     "username": user.username,
                     "full_name": f"{user.first_name} {user.last_name}",
-                    "user_type": user_type,                    
+                    "user_type": user_type,
                     "tokens": {
                         "refresh": str(refresh),
                         "access": str(refresh.access_token),
@@ -117,7 +110,7 @@ class UserLoginSerializer(serializers.Serializer):
 
 
 class CreateCustomerSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = UserRegisterSerializer()
 
     class Meta:
         model = Customer
@@ -145,20 +138,61 @@ class CreateCustomerSerializer(serializers.ModelSerializer):
         return customer
 
 
-class CustomerAvatarSerializer(serializers.ModelSerializer):
+class CustomerSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
 
     class Meta:
         model = Customer
-        fields = ["avatar"]
+        fields = "__all__"
+        # fields = ['id', 'customer_id', 'user', 'address', 'city', 'state', 'post_code', 'phone_number', 'avatar']
+        # exclude = ["user"]
 
     def update(self, instance, validated_data):
-        instance.avatar = validated_data.get("avatar", instance.avatar)
-        instance.save()
-        return instance
+        user_data = validated_data.pop("user", None)
+        if user_data:
+            # Update user fields (modify as needed based on your User model)
+            instance.user.username = user_data.get("username", instance.user.username)
+            instance.user.first_name = user_data.get(
+                "first_name", instance.user.first_name
+            )
+            instance.user.last_name = user_data.get(
+                "last_name", instance.user.last_name
+            )
 
+            instance.user.save()
+        print(self.data)
+
+        if "avatar" in validated_data:
+            avatar_url = validated_data["avatar"]
+            if isinstance(avatar_url, str) and avatar_url.startswith("http"):
+                # Existing avatar URL - keep it
+                pass
+            else:
+                # New file upload - update avatar field
+                instance.avatar = avatar_url
+                instance.save()
+
+        # Update other fields normally
+        return super().update(instance, validated_data)
+
+
+class RestaurantSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Restaurant
+        fields = "__all__"
+        
+class RestaurantWithMenuSerializer(serializers.ModelSerializer):
+    menu_items = MenuItemSerializer(many=True, read_only=True)
+    user = UserSerializer()
+
+    class Meta:
+        model = Restaurant
+        fields = '__all__'
 
 class CreateRestaurantSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = UserRegisterSerializer()
 
     class Meta:
         model = Restaurant

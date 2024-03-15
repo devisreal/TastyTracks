@@ -52,7 +52,7 @@ const validationSchema = Yup.object().shape({
     })
     .test("imageSize", "Image size can not be more than 5MB", (value) => {
       if (value) {
-        return value.size <= 5,242,880; // Adjust size limit as needed (3MB = 3 * 1024 * 1024 bytes)
+        return value.size <= 5, 242, 880; // Adjust size limit as needed (3MB = 3 * 1024 * 1024 bytes)
       }
       return true;
     }),
@@ -95,7 +95,7 @@ export default function AddMenuForm() {
     >
       {(formik) => (
         <form
-          className="space-y-4 font-geist"
+          className="mb-10 space-y-4 font-geist"
           onSubmit={formik.handleSubmit}
           encType="multipart/form-data"
         >
@@ -428,17 +428,6 @@ export default function AddMenuForm() {
           >
             Create Menu
           </Button>
-
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
         </form>
       )}
     </Formik>

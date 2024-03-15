@@ -13,7 +13,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         else:
-            return obj.restaurant.user == request.user
+            return bool(request.user and request.user.is_owner)
 
 
 class IsCustomer(permissions.BasePermission):
@@ -21,6 +21,13 @@ class IsCustomer(permissions.BasePermission):
     def has_permission(self, request, view):
         return bool(request.user and request.user.is_customer)
 
+class IsCustomerOrReadOnly(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        else:
+            return bool(request.user and request.user.is_customer)
 
 class IsAdminOrReadOnly(permissions.IsAdminUser):
 

@@ -69,7 +69,7 @@ export default function MenuPage() {
   return (
     <div>
       <Navbar />
-      <div className="px-2 sm:px-0">
+      <div className="px-4 md:px-6 lg:px-8 xl:px-0">
         <header className="bg-gray-10 menu_header mx-auto mt-6 flex h-[40rem] max-w-[85rem] flex-col items-start justify-end rounded-2xl p-8 sm:p-12">
           <h1 className="font-clash text-4xl font-bold text-white md:text-6xl">
             Menu

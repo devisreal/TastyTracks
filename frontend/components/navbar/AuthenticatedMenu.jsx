@@ -14,6 +14,7 @@ import {
   IconBadgeAd,
   IconStarHalfFilled,
   IconSettings,
+  IconHistory
 } from "@tabler/icons-react";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -38,7 +39,7 @@ export default function AuthenticatedMenu() {
           width={220}
           transitionProps={{ transition: "pop", duration: 150 }}
           arrowPosition="side"
-          position="bottom-end"
+          position="bottom-end"          
         >
           <Menu.Target>
             <Avatar
@@ -75,10 +76,26 @@ export default function AuthenticatedMenu() {
                   itemLabel: "text-md font-medium",
                 }}
                 component={Link}
+                href="/user/cart"
+                color={`${pathname === "/user/cart" ? "primary" : ""}`}
+                leftSection={
+                  <IconShoppingBag
+                    style={{ width: rem(24), height: rem(24) }}
+                    stroke={1.6}
+                  />
+                }
+              >
+                Cart
+              </Menu.Item>
+              <Menu.Item
+                classNames={{
+                  itemLabel: "text-md font-medium",
+                }}
+                component={Link}
                 href="/user/orders"
                 color={`${pathname === "/user/orders" ? "primary" : ""}`}
                 leftSection={
-                  <IconShoppingBag
+                  <IconHistory
                     style={{ width: rem(24), height: rem(24) }}
                     stroke={1.6}
                   />

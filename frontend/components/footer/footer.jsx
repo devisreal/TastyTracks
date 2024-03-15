@@ -1,8 +1,11 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import Logo from "../Logo";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Footer() {
+  const { IsAuthenticated } = useAuth();
   return (
     <footer className="mt-[14rem]">
       <svg
@@ -77,22 +80,29 @@ export default function Footer() {
                         Restaurants near me
                       </a>
                     </li>
-                    <li>
-                      <Link
-                        href="/auth/login"
-                        className="transition hover:text-primary-600"
-                      >
-                        Login
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="/auth/customer/signup"
-                        className="transition hover:text-primary-600"
-                      >
-                        Sign Up
-                      </Link>
-                    </li>
+
+                    {!IsAuthenticated && (
+                      <li>
+                        <Link
+                          href="/auth/login"
+                          className="transition hover:text-primary-600"
+                        >
+                          Login
+                        </Link>
+                      </li>
+                    )}
+
+                    {!IsAuthenticated && (
+                      <li>
+                        <Link
+                          href="/auth/customer/signup"
+                          className="transition hover:text-primary-600"
+                        >
+                          Sign Up
+                        </Link>
+                      </li>
+                    )}
+
                     <li>
                       <Link
                         href="/auth/restaurant/signup"

@@ -1,7 +1,10 @@
+// 'use client'
 import CustomerDashboardSideBar from "@/components/navbar/CustomerSideBar";
 import Navbar from "@/components/navbar/Navbar";
+// import { useAuth } from "@/contexts/AuthContext";
 
 export default function UserDashboardLayout({ children }) {
+  // const { isAuthenticated } = useAuth();
   return (
     <>
       <Navbar />

@@ -12,7 +12,7 @@ export default function CustomerDashboardSideBar() {
     try {
       await logout();
     } catch (error) {
-      console.error("Logout Error:", error);      
+      console.error("Logout Error:", error);
     }
   };
 
@@ -22,7 +22,7 @@ export default function CustomerDashboardSideBar() {
         <li>
           <Link
             href="/user/profile"
-            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/user/profile" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700 border-transparent"}`}
+            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/user/profile" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "border-transparent text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700"}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -48,8 +48,8 @@ export default function CustomerDashboardSideBar() {
 
         <li>
           <Link
-            href="/user/orders"
-            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/user/orders" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700 border-transparent"}`}
+            href="/user/cart"
+            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/user/cart" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "border-transparent text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700"}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -68,6 +68,32 @@ export default function CustomerDashboardSideBar() {
               <path d="M9 11v-5a3 3 0 0 1 6 0v5" />
             </svg>
 
+            <span className="text-base font-medium"> Cart </span>
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            href="/user/orders"
+            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/user/orders" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "border-transparent text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700"}`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="icon icon-tabler icons-tabler-outline icon-tabler-history"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M12 8l0 4l2 2" />
+              <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5" />
+            </svg>
+
             <span className="text-base font-medium"> Orders </span>
           </Link>
         </li>
@@ -75,7 +101,7 @@ export default function CustomerDashboardSideBar() {
         <li>
           <Link
             href="/user/favourites"
-            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/user/favourites" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700 border-transparent"}`}
+            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/user/favourites" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "border-transparent text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700"}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +126,7 @@ export default function CustomerDashboardSideBar() {
         <li>
           <Link
             href="/user/payment-methods"
-            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/user/payment-methods" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700 border-transparent"}`}
+            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/user/payment-methods" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "border-transparent text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700"}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -128,7 +154,7 @@ export default function CustomerDashboardSideBar() {
         <li>
           <Link
             href="/user/address"
-            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/user/address" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700 border-transparent"}`}
+            className={`flex items-center gap-3 border-s-[3px]  px-4 py-3 ${pathname === "/user/address" ? "border-primary-500 bg-primary-100/80 text-primary-700" : "border-transparent text-gray-500 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-700"}`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

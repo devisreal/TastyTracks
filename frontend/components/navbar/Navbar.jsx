@@ -88,34 +88,25 @@ export default function Navbar({ instantFixed }) {
                     </li>
 
                     <li>
-                      <a
+                      <Link
                         className={`${colorChange ? `text-gray-500 transition hover:text-gray-500/85 ${pathname === "/menu" ? "active-link" : ""}` : `text-white hover:text-gray-200 ${pathname === "/menu" ? "active-link" : ""}`}`}
                         href="/menu"
                       >
                         {" "}
                         Menu{" "}
-                      </a>
+                      </Link>
                     </li>
 
                     <li>
-                      <a
-                        className={` ${colorChange ? "text-gray-500 transition hover:text-gray-500/75" : "text-white"}`}
-                        href="#"
+                      <Link
+                        className={` ${colorChange ? `text-gray-500 transition hover:text-gray-500/75 ${pathname === "/restaurants" ? "active-link" : ""}` : `text-white hover:text-gray-200 ${pathname === "/restaurants" ? "active-link" : ""}`}`}
+                        href="/restaurants"
                       >
                         {" "}
                         Find Restaurants{" "}
-                      </a>
+                      </Link>
                     </li>
-
-                    <li>
-                      <a
-                        className={` ${colorChange ? "text-gray-500 transition hover:text-gray-500/75" : "text-white"}`}
-                        href="#"
-                      >
-                        {" "}
-                        Special Offers{" "}
-                      </a>
-                    </li>
+                    
                   </ul>
                 </nav>
               </div>
@@ -210,38 +201,26 @@ export default function Navbar({ instantFixed }) {
                     </li>
 
                     <li>
-                      <a
+                      <Link
                         className={`text-gray-500 transition hover:text-gray-500/85 ${pathname === "/menu" ? "active-link" : ""}`}
                         href="/menu"
                       >
                         {" "}
                         Menu{" "}
-                      </a>
+                      </Link>
                     </li>
 
                     <li>
-                      <a
-                        className={
-                          "text-gray-500 transition hover:text-gray-500/75"
-                        }
-                        href="#"
+                      <Link
+                        className={`text-gray-500 transition hover:text-gray-500/85 ${pathname === "/restaurants" ? "active-link" : ""}`}
+                        href="/restaurants"
                       >
                         {" "}
                         Find Restaurants{" "}
-                      </a>
+                      </Link>
                     </li>
 
-                    <li>
-                      <a
-                        className={
-                          "text-gray-500 transition hover:text-gray-500/75"
-                        }
-                        href="#"
-                      >
-                        {" "}
-                        Special Offers{" "}
-                      </a>
-                    </li>
+                    
                   </ul>
                 </nav>
               </div>

@@ -3,7 +3,6 @@ import axios from "axios";
 import { toast } from "sonner";
 import { jwtDecode } from "jwt-decode";
 import dayjs from "dayjs";
-import { useRouter } from "next/navigation";
 
 let access_token;
 let refresh_token;
@@ -24,7 +23,6 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(async (req) => {
-  const router = useRouter();
   const accessToken = localStorage.getItem("access");
   if (!accessToken) return req; // Early return
 
@@ -41,15 +39,12 @@ api.interceptors.request.use(async (req) => {
         refresh: refresh_token,
       },
     );
-    localStorage.setItem(
-      "access",
-      JSON.stringify(refreshTokenResponse.data.access),
-    );
+    localStorage.setItem("access", refreshTokenResponse.data.access);
     req.headers.Authorization = `Bearer ${refreshTokenResponse.data.access}`;
   } catch (error) {
     console.error("Error refreshing access token:", error);
     // Handle error (e.g., redirect to login)
-    router.push("/auth/login");
+    window.location.replace("/auth/login");
     toast.error("An error occured");
   }
 
@@ -57,6 +52,11 @@ api.interceptors.request.use(async (req) => {
 });
 
 export default api;
+
+export const currencyFormat = Intl.NumberFormat("en-GB", {
+  style: "currency",
+  currency: "GBP",
+});
 
 // if (access_token) {
 //   req.headers.Authorization = access_token ? `Bearer ${access_token}` : "";

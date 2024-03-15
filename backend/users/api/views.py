@@ -1,13 +1,16 @@
 from rest_framework.views import APIView
-from users.models import User
+from users.models import User, Customer, Restaurant
 from users.api.serializers import (
     CreateCustomerSerializer,
     CreateRestaurantSerializer,
-    UserSerializer,
+    UserRegisterSerializer,
     UserLoginSerializer,
     PasswordResetSerializer,
     SetNewPasswordSerializer,
     LogoutUserSerializer,
+    CustomerSerializer,
+    RestaurantSerializer,
+    RestaurantWithMenuSerializer
 )
 from rest_framework.response import Response
 from rest_framework import status
@@ -20,6 +23,8 @@ from users.models import OneTimePassword
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import smart_str, DjangoUnicodeDecodeError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from rest_framework import viewsets
+from rest_framework import generics
 
 
 class UserLoginAPIView(APIView):
@@ -96,12 +101,92 @@ class CreateCustomerView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class CustomerDetailView(APIView):
+    permission_classes = [IsAuthenticated & IsCustomer]
+
+    def get(self, request, format=None):
+        user = request.user
+        if user.is_authenticated:
+            try:
+                customer = Customer.objects.get(user=user)
+                serializer = CustomerSerializer(customer)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except Customer.DoesNotExist:
+                return Response(
+                    {"error": "Customer not found"}, status=status.HTTP_404_NOT_FOUND
+                )
+        else:
+            return Response(
+                {"error": "User not authenticated"}, status=status.HTTP_401_UNAUTHORIZED
+            )
+
+    def patch(self, request, format=None):
+        user = request.user
+        if user.is_authenticated:
+            try:
+                customer = Customer.objects.get(user=user)
+                serializer = CustomerSerializer(
+                    customer, data=request.data, partial=True
+                )
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            except Customer.DoesNotExist:
+                return Response(
+                    {"error": "Customer not found"}, status=status.HTTP_404_NOT_FOUND
+                )
+        else:
+            return Response(
+                {"error": "User not authenticated"}, status=status.HTTP_401_UNAUTHORIZED
+            )
+
+
+class RestaurantDetailView(APIView):
+    permission_classes = [IsAuthenticated & IsOwner]
+
+    def get(self, request, format=None):
+        user = request.user
+        if user.is_authenticated:
+            try:
+                restaurant = Restaurant.objects.get(user=user)
+                serializer = RestaurantSerializer(restaurant)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except Restaurant.DoesNotExist:
+                return Response(
+                    {"error": "Restaurant not found"}, status=status.HTTP_404_NOT_FOUND
+                )
+        else:
+            return Response(
+                {"error": "User not authenticated"}, status=status.HTTP_401_UNAUTHORIZED
+            )
+
+
+class RestaurantListView(APIView):
+    def get(self, request):
+        restaurants = Restaurant.objects.all()
+        serializer = RestaurantSerializer(restaurants, many=True)
+        return Response(serializer.data)
+
+class RestaurantDetail(APIView):   
+   def get(self, request, format=None):
+      username = request.query_params.get('username', None)
+      if username:
+         try:
+            restaurant = Restaurant.objects.get(user__username=username)
+            serializer = RestaurantWithMenuSerializer(restaurant)
+            return Response(serializer.data)
+         except Restaurant.DoesNotExist:
+            return Response({"error": "Restaurant not found"}, status=status.HTTP_404_NOT_FOUND)
+      else:
+         return Response({"error": "Username parameter is required"}, status=status.HTTP_400_BAD_REQUEST)
+
 class UserList(APIView):
-    permission_classes = [IsAdminUser, IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
+        serializer = UserRegisterSerializer(users, many=True)
         return Response(serializer.data)
 
 
@@ -111,7 +196,7 @@ class UserDetails(APIView):
     def get(self, request):
         user = request.user.slug
         profile = User.objects.get(slug=user)
-        serializer = UserSerializer(profile)
+        serializer = UserRegisterSerializer(profile)
         return Response(serializer.data)
 
 

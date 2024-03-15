@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import api from "@/utils/api";
 import { useRouter, notFound } from "next/navigation";
 import axios from "axios";
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
       return JSON.parse(localStorage.getItem("user")) || null;
     }
     return null;
-  });  
+  });
 
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     // Check localStorage for "isAuthenticated" and set a default value if not found
@@ -98,7 +98,6 @@ export const AuthProvider = ({ children }) => {
         toast.success("Logged out successfully!");
       }
     } catch (error) {
-      toast.error("An error occured");
       router.push("/auth/login");
       setIsAuthenticated(false);
       console.error("Logout Error:", error);
@@ -286,7 +285,159 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  
+  const [isDeleting, setIsDeleting] = useState(null);
+
+  const deleteCartItem = async (cartItemId) => {
+    try {
+      setIsDeleting(true);
+      const response = await api.post(`/orders/cart/delete-item/`, {
+        cart_item_id: cartItemId,
+      });
+      if (response.status === 200) {
+        // Item successfully deleted
+        setIsDeleting(false);
+        window.location.reload();
+        toast.success("Item deleted from cart");
+      }
+    } catch (error) {
+      setIsDeleting(false);
+      console.error("Error deleting item from cart:", error);
+      toast.error("Failed to delete item from cart");
+      // Handle error (e.g., display error message)
+    }
+  };
+
+  const increaseCartQuantity = async (cartItemId) => {
+    try {
+      await api.patch(`/orders/cart/item/${cartItemId}/increase/`);
+      window.location.reload();
+      // Update cart items in frontend state
+      // Example: Update cart items stored in state after increasing quantity
+    } catch (error) {
+      console.error("Error increasing quantity:", error);
+      // Handle error (e.g., display error message)
+    }
+  };
+
+  const decreaseCartQuantity = async (cartItemId) => {
+    try {
+      await api.patch(`/orders/cart/item/${cartItemId}/decrease/`);
+      window.location.reload();
+      // Update cart items in frontend state
+      // Example: Update cart items stored in state after decreasing quantity
+    } catch (error) {
+      console.error("Error decreasing quantity:", error);
+      // Handle error (e.g., display error message)
+    }
+  };
+
+  const addToCart = async (menuItemId, quantity) => {
+    try {
+      const response = await api.post(`/orders/cart/add-item/`, {
+        menu_item_id: menuItemId,
+        quantity: quantity,
+      });
+      if (response.status === 201) {
+        toast.success("Item added to cart");
+      } else {
+        // Handle error responses
+        console.error("Error adding item to cart:", error);
+      }
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
+  };
+
+  const [customerDetail, setCustomerDetail] = useState({});
+
+  const fetchCustomerDetail = async () => {
+    try {
+      const response = await api.get("/auth/customer/detail/");
+
+      if (response.status === 200) {
+        setCustomerDetail(response.data);
+      } else {
+        console.error("Error fetching customer detail", error);
+      }
+    } catch (error) {
+      console.error("Error fetching customer detail:", error.message);
+      return null;
+    }
+  };
+
+  const [restaurantDetail, setRestaurantDetail] = useState({});
+
+  const fetchRestaurantDetail = async () => {
+    try {
+      const response = await api.get("/auth/owner/detail/");
+
+      if (response.status === 200) {
+        setRestaurantDetail(response.data);
+      } else {
+        console.error("Error fetching restaurant detail", error);
+      }
+    } catch (error) {
+      console.error("Error fetching restaurant detail:", error.message);
+      return null;
+    }
+  };
+
+  const updateCustomerDetails = async (values, setSubmitting, resetForm) => {
+    try {
+      const data = new FormData();
+      const userData = {
+        first_name: values.first_name,
+        last_name: values.last_name,
+        username: values.username,
+      };
+      
+      data.append("user", JSON.stringify(userData));
+
+      data.append("address", values.address);
+      data.append("state", values.state);
+      data.append("post_code", values.post_code);
+      data.append("phone_number", values.phone_number);
+      data.append("city", values.city);
+
+      if (values.avatar instanceof File) {
+        // New file upload - append the file to FormData
+        // data.append("avatar", values.avatar);
+        console.log("Appending file:", values.avatar); // Check file object
+        data.append("avatar", values.avatar);
+      } 
+      // else if (
+      //   values.avatar &&
+      //   typeof values.avatar === "string" &&
+      //   values.avatar.startsWith("http")
+      // ) {
+      //   data.append("avatar_url", values.avatar);
+      // } else {
+      //   console.log("no update");
+      // }
+
+      console.log(data);
+
+      const res = await api.patch("/auth/customer/detail/", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (res.status === 200) {
+        resetForm({ values: "" });
+        console.log(data)
+        fetchCustomerDetail();
+        toast.success("Customer Details Updated Successfully");
+      }
+    } catch (error) {
+      console.error("Update Customer Details Error:", error);
+      // Handle error (e.g., display error message)
+      // toast.error("Failed to update customer details");
+      window.location.reload()
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <AuthContext.Provider
@@ -301,7 +452,17 @@ export const AuthProvider = ({ children }) => {
         resetPassword,
         isAuthenticated,
         setIsAuthenticated,
-        addMenuItem,                
+        addMenuItem,
+        deleteCartItem,
+        isDeleting,
+        increaseCartQuantity,
+        decreaseCartQuantity,
+        addToCart,
+        customerDetail,
+        fetchCustomerDetail,
+        updateCustomerDetails,
+        restaurantDetail,
+        fetchRestaurantDetail
       }}
     >
       {children}

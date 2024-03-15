@@ -32,3 +32,12 @@
   background-size: cover;
   background-position: center;
 }
+
+
+.restaurant_header {
+  background-image:
+    linear-gradient(62deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url("https://res.cloudinary.com/ds4h5p2np/image/upload/q_auto:best/v1710479316/tasty_tracks/restaurant_header.jpg");
+  background-size: cover;
+  background-position: center;
+}
