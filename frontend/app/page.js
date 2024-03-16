@@ -7,6 +7,11 @@ import { Button } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
 
+export const metadata = {
+  title: "Home | Tasty Tracks",
+  description: "Tasty Tracks Home Page",
+};
+
 export default function Home() {
   return (
     <>
