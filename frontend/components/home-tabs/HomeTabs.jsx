@@ -87,7 +87,7 @@ export default function HomeTabs() {
         <Tabs.Panel
           key={index}
           value={tab.value}
-          className="flex flex-col gap-6 sm:p-4 sm:flex-row md:flex-col xl:flex-row"
+          className="flex flex-col gap-6 sm:flex-row sm:p-4 md:flex-col xl:flex-row"
         >
           {tab.images.map((image, index) => (
             <Paper

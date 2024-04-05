@@ -173,7 +173,7 @@ export default function AddMenuForm() {
               htmlFor="image_2"
               className="block text-sm font-medium md:text-md"
             >
-              Image 2
+              Image 2 (optional)
             </label>
             <input
               type="file"
@@ -190,7 +190,7 @@ export default function AddMenuForm() {
               htmlFor="image_3"
               className="block text-sm font-medium md:text-md"
             >
-              Image 3
+              Image 3 (optional)
             </label>
             <input
               type="file"

@@ -76,9 +76,9 @@ export default function Footer() {
                   </h6>
                   <ul className="mt-4 list-inside space-y-4 font-geist font-medium">
                     <li>
-                      <a href="#" className="transition hover:text-primary-600">
+                      <Link href="/restaurants" className="transition hover:text-primary-600">
                         Restaurants near me
-                      </a>
+                      </Link>
                     </li>
 
                     {!IsAuthenticated && (
